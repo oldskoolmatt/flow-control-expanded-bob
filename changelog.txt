@@ -1,0 +1,55 @@
+---------------------------------------------------------------------------------------------------
+Version: 1.1.21
+Date: 25. 03. 2021
+  Info:
+    - Minor code tweaks
+    - Prevent other mods from moving recipes outside the fluid network tab in crafting menu
+  Bugfixes:
+    - Fixed a subgroup name mismatch
+    - Restored a missing variable in the code
+---------------------------------------------------------------------------------------------------
+Version: 1.1.20
+Date: 24. 03. 2021
+  Features:
+    - Added support for Angel's mods
+    - Added support for "Kirazy's Artisanal Reskins: angel's Mods"
+  Info:
+    - Renamed "Hydraulics" tab to "Fluid Network"
+    - Code tweaks and tidy up
+---------------------------------------------------------------------------------------------------
+Version: 1.1.19
+Date: 23. 03. 2021
+  Bugfixes:
+    - Reworked most of the code, the code is now bulletproof and won't conflict with other mods
+---------------------------------------------------------------------------------------------------
+Version: 1.1.14
+Date: 12. 03. 2021
+  Bugfixes:
+    - Fixed some entries preventing new pipes from showing in the correct tab
+---------------------------------------------------------------------------------------------------
+Version: 1.1.13
+Date: 06. 03. 2021
+  Bugfixes:
+    - Fixed a crash related to "Bob's Mining"
+---------------------------------------------------------------------------------------------------
+Version: 1.1.12
+Date: 13. 02. 2021
+  Bugfixes:
+    - Fixed a crash related to "Bob's Metals, Chemicals and Intermediates"
+---------------------------------------------------------------------------------------------------
+Version: 1.1.11
+Date: 12. 02. 2021
+  Bugfixes:
+    - Fixed a typo in info.json
+---------------------------------------------------------------------------------------------------
+Version: 1.1.10
+Date: 11. 02. 2021
+  Features:
+    - Supports "Kirazy's Artisanal Reskins: Bob's Mods"
+    - Valves from "Bob's Logistics" and "Flow Control" are merged into a single set of four valves:
+      - One Way Valve: allows flow in one direction only
+      - Overflow Valve: allows in one direction flow if input is > 80% full
+      - Top Up Valve: allows flow in one direction if output is < 80% full
+      - Top Up Valve: allows flow in one direction if output is < 20% full
+    - Each pipe from "Bob's Logistics" has straight, elbow, and junction equivalents from "Flow Control"
+    - All entities related to fluid network (pumps, storage tanks, pumpjacks, etc) are under a new tab in crafting menu
