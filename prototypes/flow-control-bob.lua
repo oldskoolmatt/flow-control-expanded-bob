@@ -2,7 +2,10 @@
 ---- data-updates.lua ----
 --------------------------
 
--- Define path variables
+-- Define global variables
+flow_bob_icon_path = "__flow-control-expanded-bob__/graphics/icon/base/"
+flow_bob_shadow_covers_path = "__base__/graphics/entity/pipe-covers"
+
 if mods ["reskins-bobs"] then
 	flow_bob_picture_path = "__reskins-bobs__/graphics/entity/logistics/pipe/"
 	flow_bob_covers_path = "__reskins-bobs__/graphics/entity/logistics/pipe-covers/"
@@ -11,10 +14,11 @@ else
 	flow_bob_covers_path = "__boblogistics__/graphics/entity/pipe/"
 end
 
+-- Define local variables
 local picture_path = flow_bob_picture_path
 local covers_path = flow_bob_covers_path
-local icon_path = "__flow-control-expanded-bob__/graphics/icon/base/"
-local shadow_covers_path = "__base__/graphics/entity/pipe-covers"
+local icon_path = flow_bob_icon_path
+local shadow_covers_path = flow_bob_shadow_covers_path
 
 -- Pipe icons
 function flow_bob_pipe_icons(material, icon_path)
