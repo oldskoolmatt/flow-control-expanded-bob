@@ -51,16 +51,20 @@ end
 
 -- Duplicate valve remove function
 function flow_bob_remove_bob_valve(old_valve)
-	for i = 1, #data.raw.technology["fluid-handling"].effects do
-		effect = data.raw.technology["fluid-handling"].effects[i]
-		if effect.type == "unlock-recipe" and effect.recipe == old_valve then
-			index = i
+	if old_valve == "bob-valve" then
+		data.raw.recipe["bob-valve"] = nil
+		data.raw.item["bob-valve"] = nil
+		data.raw["storage-tank"]["bob-valve"] = nil
+	elseif data.raw.technology["fluid-handling"] and data.raw.technology["fluid-handling"].effects then
+		for i, effect in pairs(data.raw.technology["fluid-handling"].effects) do
+			if effect.type == "unlock-recipe" and effect.recipe == old_valve then
+				table.remove(data.raw.technology["fluid-handling"].effects,i)
+				data.raw.recipe[old_valve] = nil
+				data.raw.item[old_valve] = nil
+				data.raw["storage-tank"][old_valve] = nil
+			end
 		end
 	end
-	table.remove(data.raw.technology["fluid-handling"].effects, index)
-	data.raw.recipe[old_valve] = nil
-	data.raw.item[old_valve] = nil
-	data.raw["storage-tank"][old_valve] = nil
 end
 
 -- Reskin flow-bob valves
