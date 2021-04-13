@@ -201,7 +201,7 @@ if not mods["reskins-bobs"] then
 	assign_icon("pipe-straight", "storage-tank")
 	assign_icon("pipe-junction", "storage-tank")
 	assign_icon("pipe-elbow", "storage-tank")
-else
+elseif (reskins.bobs and reskins.bobs.triggers.logistics.entities) then
 	-- Initialise material mapping
 	local material_map = {
 		["iron"] = 1,

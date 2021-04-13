@@ -7,8 +7,9 @@
 ---- data-updates.lua ----
 --------------------------
 
--- If reskins-angels and angelssmelting aren't both present, do nothing
-if not (mods["reskins-angels"] and mods["angelssmelting"]) then return end
+-- If the reskins mods don't do anything, we shouldn't either
+if not (reskins.angels and reskins.angels.triggers.smelting.entities) then return end
+if not (reskins.bobs and reskins.bobs.triggers.logistics.entities) then return end
 
 -- Set tier mapping
 local materials = {
