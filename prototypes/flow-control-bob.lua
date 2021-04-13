@@ -2,375 +2,363 @@
 ---- data-updates.lua ----
 --------------------------
 
--- Define global variables
-flow_bob_icon_path = "__flow-control-expanded-bob__/graphics/icon/base/"
-flow_bob_shadow_covers_path = "__base__/graphics/entity/pipe-covers"
+-- Functions
+local assign_icon = flow_bob_assign_icon
+local add_tech = flow_bob_add_tech
 
-if mods ["reskins-bobs"] then
-	flow_bob_picture_path = "__reskins-bobs__/graphics/entity/logistics/pipe/"
-	flow_bob_covers_path = "__reskins-bobs__/graphics/entity/logistics/pipe-covers/"
-else
-	flow_bob_picture_path = "__boblogistics__/graphics/entity/pipe/"
-	flow_bob_covers_path = "__boblogistics__/graphics/entity/pipe/"
-end
-
--- Define local variables
+-- Paths
 local picture_path = flow_bob_picture_path
-local covers_path = flow_bob_covers_path
 local icon_path = flow_bob_icon_path
+local covers_path = flow_bob_covers_path
 local shadow_covers_path = flow_bob_shadow_covers_path
 
--- Pipe icons
-function flow_bob_pipe_icons(material, icon_path)
-	return
+-- Initialise material maps
+local material_map =
 {
-	straight=
+	["copper"] = {1},
+	["stone"] = {1},
+	["bronze"] = {2},
+	["steel"] = {2},
+	["plastic"] = {3},
+	["brass"] = {3},
+	["titanium"] = {4},
+	["ceramic"] = {4},
+	["tungsten"] = {4},
+	["nitinol"] = {5},
+	["copper-tungsten"] = {5}
+}
+
+-- Pipe icons
+assign_icon("pipe", "pipe")
+assign_icon("pipe-to-ground", "pipe-to-ground")
+assign_icon("pipe-straight", "storage-tank")
+assign_icon("pipe-junction", "storage-tank")
+assign_icon("pipe-elbow", "storage-tank")
+for material, _ in pairs(material_map) do
+	if data.raw.item[material .. "-pipe-to-ground"] then
+		assign_icon(material .. "-pipe-to-ground", "pipe-to-ground")
+	end
+	if data.raw.item[material .. "-pipe"] then
+		assign_icon(material .. "-pipe", "pipe")
+	end
+end
+
+-- Straight pipe sprite
+function flow_bob_str_pictures(material, picture_path) return
+{
+	straight_vertical =
 	{
-		filename = icon_path .. material .. "/pipe-straight-vertical.png",
+		filename = picture_path .. material .. "/pipe-straight-vertical.png",
 		priority = "extra-high",
 		width = 64,
 		height = 64,
-		scale=0.5,
+		hr_version =
+		{
+			filename = picture_path .. material .. "/hr-pipe-straight-vertical.png",
+			priority = "extra-high",
+			width = 128,
+			height = 128,
+			scale = 0.5
+		}
 	},
-	elbow=
+	straight_horizontal =
 	{
-		filename = icon_path .. material .. "/pipe-corner-down-right.png",
+		filename = picture_path .. material .. "/pipe-straight-horizontal.png",
 		priority = "extra-high",
 		width = 64,
 		height = 64,
-		scale = 0.5,
-	},
-	junction=
-	{
-		filename = icon_path .. material .. "/pipe-t-up.png",
-		priority = "extra-high",
-		width = 64,
-		height = 64,
-		scale=0.5,
+		hr_version =
+		{
+			filename = picture_path .. material .. "/hr-pipe-straight-horizontal.png",
+			priority = "extra-high",
+			width = 128,
+			height = 128,
+			scale = 0.5
+		}
 	}
 }
 end
 
--- Straight pipe
-function flow_bob_str_pictures(material, picture_path)
-	return
+-- Elbow pipe sprite
+function flow_bob_elb_pictures(material, picture_path) return
+{
+	corner_up_right =
 	{
-		straight_vertical =
+		filename = picture_path .. material .. "/pipe-corner-up-right.png",
+		priority = "extra-high",
+		width = 64,
+		height = 64,
+		hr_version =
 		{
-			filename = picture_path .. material .. "/pipe-straight-vertical.png",
+			filename = picture_path .. material .. "/hr-pipe-corner-up-right.png",
 			priority = "extra-high",
-			width = 64,
-			height = 64,
-			hr_version =
-			{
-				filename = picture_path .. material .. "/hr-pipe-straight-vertical.png",
-				priority = "extra-high",
-				width = 128,
-				height = 128,
-				scale = 0.5
-			}
-		},
-		straight_horizontal =
-		{
-			filename = picture_path .. material .. "/pipe-straight-horizontal.png",
-			priority = "extra-high",
-			width = 64,
-			height = 64,
-			hr_version =
-			{
-				filename = picture_path .. material .. "/hr-pipe-straight-horizontal.png",
-				priority = "extra-high",
-				width = 128,
-				height = 128,
-				scale = 0.5
-			}
-		},
-	}
-end
-
--- Elbow pipe
-function flow_bob_elb_pictures(material, picture_path)
-	return
+			width = 128,
+			height = 128,
+			scale = 0.5
+		}
+	},
+	corner_up_left =
 	{
-		corner_up_right =
+		filename = picture_path .. material .. "/pipe-corner-up-left.png",
+		priority = "extra-high",
+		width = 64,
+		height = 64,
+		hr_version =
 		{
-			filename = picture_path .. material .. "/pipe-corner-up-right.png",
+			filename = picture_path .. material .. "/hr-pipe-corner-up-left.png",
 			priority = "extra-high",
-			width = 64,
-			height = 64,
-			hr_version =
-			{
-				filename = picture_path .. material .. "/hr-pipe-corner-up-right.png",
-				priority = "extra-high",
-				width = 128,
-				height = 128,
-				scale = 0.5
-			}
-		},
-		corner_up_left =
+			width = 128,
+			height = 128,
+			scale = 0.5
+		}
+	},
+	corner_down_right =
+	{
+		filename = picture_path .. material .. "/pipe-corner-down-right.png",
+		priority = "extra-high",
+		width = 64,
+		height = 64,
+		hr_version =
 		{
-			filename = picture_path .. material .. "/pipe-corner-up-left.png",
+			filename = picture_path .. material .. "/hr-pipe-corner-down-right.png",
 			priority = "extra-high",
-			width = 64,
-			height = 64,
-			hr_version =
-			{
-				filename = picture_path .. material .. "/hr-pipe-corner-up-left.png",
-				priority = "extra-high",
-				width = 128,
-				height = 128,
-				scale = 0.5
-			}
-		},
-		corner_down_right =
+			width = 128,
+			height = 128,
+			scale = 0.5
+		}
+	},
+	corner_down_left =
+	{
+		filename = picture_path .. material .. "/pipe-corner-down-left.png",
+		priority = "extra-high",
+		width = 64,
+		height = 64,
+		hr_version =
 		{
-			filename = picture_path .. material .. "/pipe-corner-down-right.png",
+			filename = picture_path .. material .. "/hr-pipe-corner-down-left.png",
 			priority = "extra-high",
-			width = 64,
-			height = 64,
-			hr_version =
-			{
-				filename = picture_path .. material .. "/hr-pipe-corner-down-right.png",
-				priority = "extra-high",
-				width = 128,
-				height = 128,
-				scale = 0.5
-			}
-		},
-		corner_down_left =
-		{
-			filename = picture_path .. material .. "/pipe-corner-down-left.png",
-			priority = "extra-high",
-			width = 64,
-			height = 64,
-			hr_version =
-			{
-				filename = picture_path .. material .. "/hr-pipe-corner-down-left.png",
-				priority = "extra-high",
-				width = 128,
-				height = 128,
-				scale = 0.5
-			}
+			width = 128,
+			height = 128,
+			scale = 0.5
 		}
 	}
+}
 end
 
--- Junction pipe
-function flow_bob_jun_pictures(material, picture_path)
-	return
+-- Junction pipe sprite
+function flow_bob_jun_pictures(material, picture_path) return
+{
+	t_up =
 	{
-		t_up =
+		filename = picture_path .. material .. "/pipe-t-up.png",
+		priority = "extra-high",
+		width = 64,
+		height = 64,
+		hr_version =
 		{
-			filename = picture_path .. material .. "/pipe-t-up.png",
+			filename = picture_path .. material .. "/hr-pipe-t-up.png",
 			priority = "extra-high",
-			width = 64,
-			height = 64,
-			hr_version =
-			{
-				filename = picture_path .. material .. "/hr-pipe-t-up.png",
-				priority = "extra-high",
-				width = 128,
-				height = 128,
-				scale = 0.5
-			}
-		},
-		t_down =
+			width = 128,
+			height = 128,
+			scale = 0.5
+		}
+	},
+	t_down =
+	{
+		filename = picture_path .. material .. "/pipe-t-down.png",
+		priority = "extra-high",
+		width = 64,
+		height = 64,
+		hr_version =
 		{
-			filename = picture_path .. material .. "/pipe-t-down.png",
+			filename = picture_path .. material .. "/hr-pipe-t-down.png",
 			priority = "extra-high",
-			width = 64,
-			height = 64,
-			hr_version =
-			{
-				filename = picture_path .. material .. "/hr-pipe-t-down.png",
-				priority = "extra-high",
-				width = 128,
-				height = 128,
-				scale = 0.5
-			}
-		},
-		t_right =
+			width = 128,
+			height = 128,
+			scale = 0.5
+		}
+	},
+	t_right =
+	{
+		filename = picture_path .. material .. "/pipe-t-right.png",
+		priority = "extra-high",
+		width = 64,
+		height = 64,
+		hr_version =
 		{
-			filename = picture_path .. material .. "/pipe-t-right.png",
+			filename = picture_path .. material .. "/hr-pipe-t-right.png",
 			priority = "extra-high",
-			width = 64,
-			height = 64,
-			hr_version =
-			{
-				filename = picture_path .. material .. "/hr-pipe-t-right.png",
-				priority = "extra-high",
-				width = 128,
-				height = 128,
-				scale = 0.5
-			}
-		},
-		t_left =
+			width = 128,
+			height = 128,
+			scale = 0.5
+		}
+	},
+	t_left =
+	{
+		filename = picture_path .. material .. "/pipe-t-left.png",
+		priority = "extra-high",
+		width = 64,
+		height = 64,
+		hr_version =
 		{
-			filename = picture_path .. material .. "/pipe-t-left.png",
+			filename = picture_path .. material .. "/hr-pipe-t-left.png",
 			priority = "extra-high",
-			width = 64,
-			height = 64,
-			hr_version =
+			width = 128,
+			height = 128,
+			scale = 0.5
+		}
+	}
+}
+end
+
+-- Pipe covers sprite
+function flow_bob_pipe_covers_pictures(material, covers_path, shadow_covers_path) return
+{
+	north =
+	{
+		layers =
+		{
 			{
-				filename = picture_path .. material .. "/hr-pipe-t-left.png",
+				filename = covers_path .. material .. "/pipe-cover-north.png",
 				priority = "extra-high",
-				width = 128,
-				height = 128,
-				scale = 0.5
+				width = 64,
+				height = 64,
+				hr_version =
+				{
+					filename = covers_path .. material .. "/hr-pipe-cover-north.png",
+					priority = "extra-high",
+					width = 128,
+					height = 128,
+					scale = 0.5
+				}
 			},
+			{
+				filename = shadow_covers_path .. "/pipe-cover-north-shadow.png",
+				priority = "extra-high",
+				width = 64,
+				height = 64,
+				draw_as_shadow = true,
+				hr_version =
+				{
+					filename = shadow_covers_path .. "/hr-pipe-cover-north-shadow.png",
+					priority = "extra-high",
+					width = 128,
+					height = 128,
+					scale = 0.5,
+					draw_as_shadow = true
+				}
+			}
 		}
-	}
-end
-
--- Pipe covers
-function flow_bob_pipe_covers_pictures(material, covers_path, shadow_covers_path)
-	return
+	},
+	east =
 	{
-		north =
+		layers =
 		{
-			layers =
 			{
+				filename = covers_path .. material .. "/pipe-cover-east.png",
+				priority = "extra-high",
+				width = 64,
+				height = 64,
+				hr_version =
 				{
-					filename = covers_path .. material .. "/pipe-cover-north.png",
+					filename = covers_path .. material .. "/hr-pipe-cover-east.png",
 					priority = "extra-high",
-					width = 64,
-					height = 64,
-					hr_version =
-					{
-						filename = covers_path .. material .. "/hr-pipe-cover-north.png",
-						priority = "extra-high",
-						width = 128,
-						height = 128,
-						scale = 0.5
-					}
-				},
+					width = 128,
+					height = 128,
+					scale = 0.5
+				}
+			},
+			{
+				filename = shadow_covers_path .. "/pipe-cover-east-shadow.png",
+				priority = "extra-high",
+				width = 64,
+				height = 64,
+				draw_as_shadow = true,
+				hr_version =
 				{
-					filename = shadow_covers_path .. "/pipe-cover-north-shadow.png",
+					filename = shadow_covers_path .. "/hr-pipe-cover-east-shadow.png",
 					priority = "extra-high",
-					width = 64,
-					height = 64,
-					draw_as_shadow = true,
-					hr_version =
-					{
-						filename = shadow_covers_path .. "/hr-pipe-cover-north-shadow.png",
-						priority = "extra-high",
-						width = 128,
-						height = 128,
-						scale = 0.5,
-						draw_as_shadow = true
-					}
+					width = 128,
+					height = 128,
+					scale = 0.5,
+					draw_as_shadow = true --was disabled
 				}
 			}
-		},
-		east =
+		}
+	},
+	south =
+	{
+		layers =
 		{
-			layers =
 			{
+				filename = covers_path .. material .. "/pipe-cover-south.png",
+				priority = "extra-high",
+				width = 64,
+				height = 64,
+				hr_version =
 				{
-					filename = covers_path .. material .. "/pipe-cover-east.png",
+					filename = covers_path .. material .. "/hr-pipe-cover-south.png",
 					priority = "extra-high",
-					width = 64,
-					height = 64,
-					hr_version =
-					{
-						filename = covers_path .. material .. "/hr-pipe-cover-east.png",
-						priority = "extra-high",
-						width = 128,
-						height = 128,
-						scale = 0.5
-					}
-				},
+					width = 128,
+					height = 128,
+					scale = 0.5
+				}
+			},
+			{
+				filename = shadow_covers_path .. "/pipe-cover-south-shadow.png",
+				priority = "extra-high",
+				width = 64,
+				height = 64,
+				draw_as_shadow = true,
+				hr_version =
 				{
-					filename = shadow_covers_path .. "/pipe-cover-east-shadow.png",
+					filename = shadow_covers_path .. "/hr-pipe-cover-south-shadow.png",
 					priority = "extra-high",
-					width = 64,
-					height = 64,
-					draw_as_shadow = true,
-					hr_version =
-					{
-						filename = shadow_covers_path .. "/hr-pipe-cover-east-shadow.png",
-						priority = "extra-high",
-						width = 128,
-						height = 128,
-						scale = 0.5,
-						draw_as_shadow = true --was disabled
-					}
+					width = 128,
+					height = 128,
+					scale = 0.5,
+					draw_as_shadow = true
 				}
 			}
-		},
-		south =
+		}
+	},
+	west =
+	{
+		layers =
 		{
-			layers =
 			{
+				filename = covers_path .. material .. "/pipe-cover-west.png",
+				priority = "extra-high",
+				width = 64,
+				height = 64,
+				hr_version =
 				{
-					filename = covers_path .. material .. "/pipe-cover-south.png",
+					filename = covers_path .. material .. "/hr-pipe-cover-west.png",
 					priority = "extra-high",
-					width = 64,
-					height = 64,
-					hr_version =
-					{
-						filename = covers_path .. material .. "/hr-pipe-cover-south.png",
-						priority = "extra-high",
-						width = 128,
-						height = 128,
-						scale = 0.5
-					}
-				},
-				{
-					filename = shadow_covers_path .. "/pipe-cover-south-shadow.png",
-					priority = "extra-high",
-					width = 64,
-					height = 64,
-					draw_as_shadow = true,
-					hr_version =
-					{
-						filename = shadow_covers_path .. "/hr-pipe-cover-south-shadow.png",
-						priority = "extra-high",
-						width = 128,
-						height = 128,
-						scale = 0.5,
-						draw_as_shadow = true
-					}
+					width = 128,
+					height = 128,
+					scale = 0.5
 				}
-			}
-		},
-		west =
-		{
-			layers =
+			},
 			{
+				filename = shadow_covers_path .. "/pipe-cover-west-shadow.png",
+				priority = "extra-high",
+				width = 64,
+				height = 64,
+				draw_as_shadow = true,
+				hr_version =
 				{
-					filename = covers_path .. material .. "/pipe-cover-west.png",
+					filename = shadow_covers_path .. "/hr-pipe-cover-west-shadow.png",
 					priority = "extra-high",
-					width = 64,
-					height = 64,
-					hr_version =
-					{
-						filename = covers_path .. material .. "/hr-pipe-cover-west.png",
-						priority = "extra-high",
-						width = 128,
-						height = 128,
-						scale = 0.5
-					}
-				},
-				{
-					filename = shadow_covers_path .. "/pipe-cover-west-shadow.png",
-					priority = "extra-high",
-					width = 64,
-					height = 64,
-					draw_as_shadow = true,
-					hr_version =
-					{
-						filename = shadow_covers_path .. "/hr-pipe-cover-west-shadow.png",
-						priority = "extra-high",
-						width = 128,
-						height = 128,
-						scale = 0.5,
-						draw_as_shadow = true
-					}
+					width = 128,
+					height = 128,
+					scale = 0.5,
+					draw_as_shadow = true
 				}
 			}
 		}
 	}
+}
 end
 
 -- Initialise pipe generation
@@ -379,33 +367,36 @@ local overflow_bob_pipe_names = {} do
 	-- Begin construction
 	local new_pipes = {}
 
+	-- Entity type
+	local pipe_type = "storage-tank"
+
 	-- Straight
 	local strtable = function ()
 	 	return
 		{
 			item = table.deepcopy(data.raw.item["pipe-straight"]),
 			recipe = table.deepcopy(data.raw.recipe["pipe-straight"]),
-			entity = table.deepcopy(data.raw["storage-tank"]["pipe-straight"])
+			entity = table.deepcopy(data.raw[pipe_type]["pipe-straight"])
 		}
 	end
-
+	
 	-- Junction
 	local juntable = function ()
 		return
 		{
 			item = table.deepcopy(data.raw.item["pipe-junction"]),
 			recipe = table.deepcopy(data.raw.recipe["pipe-junction"]),
-			entity = table.deepcopy(data.raw["storage-tank"]["pipe-junction"])
+			entity = table.deepcopy(data.raw[pipe_type]["pipe-junction"])
 		}
 	end
-
+	
 	--Elbow
 	local elbtable = function ()
 		return
 		{
 			item = table.deepcopy(data.raw.item["pipe-elbow"]),
 			recipe = table.deepcopy(data.raw.recipe["pipe-elbow"]),
-			entity = table.deepcopy(data.raw["storage-tank"]["pipe-elbow"])
+			entity = table.deepcopy(data.raw[pipe_type]["pipe-elbow"])
 		}
 	end
 
@@ -421,45 +412,45 @@ local overflow_bob_pipe_names = {} do
 
 	local p =
 	{
-		as=pstr("brass"),		aj=pjun("brass"),		ae=pelb("brass"),
-		bs=pstr("bronze"),	 bj=pjun("bronze"),	 be=pelb("bronze"),
-		cs=pstr("copper"),	 cj=pjun("copper"),	 ce=pelb("copper"),
-		es=pstr("ceramic"),	ej=pjun("ceramic"),	ee=pelb("ceramic"),
-		ns=pstr("stone"),		nj=pjun("stone"),		ne=pelb("stone"),
-		ps=pstr("plastic"),	pj=pjun("plastic"),	pe=pelb("plastic"),
-		ss=pstr("steel"),		sj=pjun("steel"),		se=pelb("steel"),
-		ts=pstr("titanium"), tj=pjun("titanium"), te=pelb("titanium"),
-		us=pstr("tungsten"), uj=pjun("tungsten"), ue=pelb("tungsten"),
-		ws=pstr("copper-tungsten"), wj=pjun("copper-tungsten"), we=pelb("copper-tungsten"),
-		ls=pstr("nitinol"), lj=pjun("nitinol"), le=pelb("nitinol")
+		as=pstr("brass"),			aj=pjun("brass"),			ae=pelb("brass"),
+		bs=pstr("bronze"),			bj=pjun("bronze"),			be=pelb("bronze"),
+		cs=pstr("copper"),			cj=pjun("copper"),			ce=pelb("copper"),
+		es=pstr("ceramic"),			ej=pjun("ceramic"),			ee=pelb("ceramic"),
+		ns=pstr("stone"),			nj=pjun("stone"),			ne=pelb("stone"),
+		ps=pstr("plastic"),			pj=pjun("plastic"),			pe=pelb("plastic"),
+		ss=pstr("steel"),			sj=pjun("steel"),			se=pelb("steel"),
+		ts=pstr("titanium"),		tj=pjun("titanium"),		te=pelb("titanium"),
+		us=pstr("tungsten"),		uj=pjun("tungsten"),		ue=pelb("tungsten"),
+		ws=pstr("copper-tungsten"),	wj=pjun("copper-tungsten"),	we=pelb("copper-tungsten"),
+		ls=pstr("nitinol"),			lj=pjun("nitinol"),			le=pelb("nitinol")
 	}
 	local m=
 	{
-		as=mne("brass"),		aj=mne("brass"),		ae=mne("brass"),
-		bs=mne("bronze"),	 bj=mne("bronze"),	 be=mne("bronze"),
-		cs=mne("copper"),	 cj=mne("copper"),	 ce=mne("copper"),
-		es=mne("ceramic"),	ej=mne("ceramic"),	ee=mne("ceramic"),
-		ns=mne("stone"),		nj=mne("stone"),		ne=mne("stone"),
-		ps=mne("plastic"),	pj=mne("plastic"),	pe=mne("plastic"),
-		ss=mne("steel"),		sj=mne("steel"),		se=mne("steel"),
-		ts=mne("titanium"), tj=mne("titanium"), te=mne("titanium"),
-		us=mne("tungsten"), uj=mne("tungsten"), ue=mne("tungsten"),
-		ws=mne("copper-tungsten"), wj=mne("copper-tungsten"), we=mne("copper-tungsten"),
-		ls=mne("nitinol"), lj=mne("nitinol"), le=mne("nitinol")
+		as=mne("brass"),			aj=mne("brass"),			ae=mne("brass"),
+		bs=mne("bronze"),			bj=mne("bronze"),			be=mne("bronze"),
+		cs=mne("copper"),			cj=mne("copper"),			ce=mne("copper"),
+		es=mne("ceramic"),			ej=mne("ceramic"),			ee=mne("ceramic"),
+		ns=mne("stone"),			nj=mne("stone"),			ne=mne("stone"),
+		ps=mne("plastic"),			pj=mne("plastic"),			pe=mne("plastic"),
+		ss=mne("steel"),			sj=mne("steel"),			se=mne("steel"),
+		ts=mne("titanium"),			tj=mne("titanium"),			te=mne("titanium"),
+		us=mne("tungsten"),			uj=mne("tungsten"),			ue=mne("tungsten"),
+		ws=mne("copper-tungsten"),	wj=mne("copper-tungsten"),	we=mne("copper-tungsten"),
+		ls=mne("nitinol"),			lj=mne("nitinol"),			le=mne("nitinol")
 	}
 	local n =
 	{
-		as=str("brass"),		aj=jun("brass"),		ae=elb("brass"), --a=brass
-		bs=str("bronze"),	 bj=jun("bronze"),	 be=elb("bronze"), --b=bronze
-		cs=str("copper"),	 cj=jun("copper"),	 ce=elb("copper"), --c=copper
-		es=str("ceramic"),	ej=jun("ceramic"),	ee=elb("ceramic"), --e=ceramic
-		ns=str("stone"),		nj=jun("stone"),		ne=elb("stone"), --n=stone
-		ps=str("plastic"),	pj=jun("plastic"),	pe=elb("plastic"), --p=plastic
-		ss=str("steel"),		sj=jun("steel"),		se=elb("steel"),	--s=steel
-		ts=str("titanium"), tj=jun("titanium"), te=elb("titanium"), --t=titanium
-		us=str("tungsten"), uj=jun("tungsten"), ue=elb("tungsten"), --u=tungsten
-		ws=str("copper-tungsten"), wj=jun("copper-tungsten"), we=elb("copper-tungsten"), --w=tungsten-copper
-		ls=str("nitinol"), lj=jun("nitinol"), le=elb("nitinol") --l=nitinol
+		as=str("brass"),			aj=jun("brass"),			ae=elb("brass"),
+		bs=str("bronze"),			bj=jun("bronze"),			be=elb("bronze"),
+		cs=str("copper"),			cj=jun("copper"),			ce=elb("copper"),
+		es=str("ceramic"),			ej=jun("ceramic"),			ee=elb("ceramic"),
+		ns=str("stone"),			nj=jun("stone"),			ne=elb("stone"),
+		ps=str("plastic"),			pj=jun("plastic"),			pe=elb("plastic"),
+		ss=str("steel"),			sj=jun("steel"),			se=elb("steel"),
+		ts=str("titanium"),			tj=jun("titanium"),			te=elb("titanium"),
+		us=str("tungsten"),			uj=jun("tungsten"),			ue=elb("tungsten"),
+		ws=str("copper-tungsten"),	wj=jun("copper-tungsten"),	we=elb("copper-tungsten"),
+		ls=str("nitinol"),			lj=jun("nitinol"),			le=elb("nitinol")
 	}
 
 	-- Build initial table
@@ -512,7 +503,11 @@ local overflow_bob_pipe_names = {} do
 		end
 		-- entity.icon / item.icon
 		new_pipes[value].entity.icon = pic1..p[key]
-		new_pipes[value].item.icon	 = pic1..p[key]
+		new_pipes[value].entity.icon_size = 64
+		new_pipes[value].entity.scale = 0.5
+		new_pipes[value].item.icon = pic1..p[key]
+		new_pipes[value].item.icon_size = 64
+		new_pipes[value].item.scale = 0.5
 		-- entity.minable.result
 		new_pipes[value].entity.minable.result = m[key]
 		-- recipe.ingredients
@@ -545,7 +540,7 @@ local overflow_bob_pipe_names = {} do
 					south = flow_bob_jun_pictures(mat, picture_path).t_up,
 					west = flow_bob_jun_pictures(mat, picture_path).t_right
 				}
-			else --elbows are left
+			else --elbow pipes
 				new_pipes[value].entity.pictures.picture =
 				{
 					north = flow_bob_elb_pictures(mat, picture_path).corner_down_right,
@@ -636,54 +631,43 @@ local overflow_bob_pipe_names = {} do
 		new_pipes[n.we].entity.fluid_box.base_area = 1
 		new_pipes[n.we].entity.max_health = 300
 	end
-	do -- Nil flow-bob pipes if parent pipe is missing
-		if not data.raw.item["bronze-pipe"] then
+	do -- Remove pipes if bobplates is not installed
+		if not mods ["bobplates"] then
+			--bronze
 			new_pipes[n.bs] = nil
 			new_pipes[n.bj] = nil
 			new_pipes[n.be] = nil
-		end
-		if not data.raw.item["brass-pipe"] then
+			--brass
 			new_pipes[n.as] = nil
 			new_pipes[n.aj] = nil
 			new_pipes[n.ae] = nil
-		end
-		if not data.raw.item["titanium-pipe"] then
+			--titanium
 			new_pipes[n.ts] = nil
 			new_pipes[n.tj] = nil
 			new_pipes[n.te] = nil
-		end
-		if not data.raw.item["ceramic-pipe"] then
+			--ceramic
 			new_pipes[n.es] = nil
 			new_pipes[n.ej] = nil
 			new_pipes[n.ee] = nil
-		end
-		if not data.raw.item["tungsten-pipe"] then
+			--tungsten
 			new_pipes[n.us] = nil
 			new_pipes[n.uj] = nil
 			new_pipes[n.ue] = nil
-		end
-		if not data.raw.item["nitinol-pipe"] then
+			--nitiniol
 			new_pipes[n.ls] = nil
 			new_pipes[n.lj] = nil
 			new_pipes[n.le] = nil
-		end
-		if not data.raw.item["copper-tungsten-pipe"] then
+			--copper tungsten
 			new_pipes[n.ws] = nil
 			new_pipes[n.wj] = nil
 			new_pipes[n.we] = nil
 		end
 	end
+	
 	-- Add generated pipes to data tables
 	for k,v in pairs(new_pipes) do
 		if not v.recipe.hidden then
 			data:extend({v.entity,v.recipe,v.item})
-		end
-	end
-	
-	-- Technology add function
-	local function add_tech(technology, recipe)
-		if data.raw.recipe and data.raw.recipe[recipe] then
-			table.insert(data.raw.technology[technology].effects,{type = "unlock-recipe", recipe = recipe})
 		end
 	end
 	
@@ -694,54 +678,37 @@ local overflow_bob_pipe_names = {} do
 	add_tech("plastics",						"pipe-plastic-straight")
 	add_tech("plastics",						"pipe-plastic-junction")
 	add_tech("plastics",						"pipe-plastic-elbow")
-	-- bobplates techs
-	add_tech("alloy-processing",				"pipe-bronze-straight")
-	add_tech("alloy-processing",				"pipe-bronze-junction")
-	add_tech("alloy-processing",				"pipe-bronze-elbow")
-	add_tech("zinc-processing",					"pipe-brass-straight")
-	add_tech("zinc-processing",					"pipe-brass-junction")
-	add_tech("zinc-processing",					"pipe-brass-elbow")
-	add_tech("titanium-processing",				"pipe-titanium-straight")
-	add_tech("titanium-processing",				"pipe-titanium-junction")
-	add_tech("titanium-processing",				"pipe-titanium-elbow")
-	add_tech("ceramics",						"pipe-ceramic-straight")
-	add_tech("ceramics",						"pipe-ceramic-junction")
-	add_tech("ceramics",						"pipe-ceramic-elbow")
-	add_tech("tungsten-processing",				"pipe-tungsten-straight")
-	add_tech("tungsten-processing",				"pipe-tungsten-junction")
-	add_tech("tungsten-processing",				"pipe-tungsten-elbow")
-	add_tech("nitinol-processing",				"pipe-nitinol-straight")
-	add_tech("nitinol-processing",				"pipe-nitinol-junction")
-	add_tech("nitinol-processing",				"pipe-nitinol-elbow")
-	add_tech("tungsten-alloy-processing",		"pipe-copper-tungsten-straight")
-	add_tech("tungsten-alloy-processing",		"pipe-copper-tungsten-junction")
-	add_tech("tungsten-alloy-processing",		"pipe-copper-tungsten-elbow")
+	if mods ["bobplates"] then
+		add_tech("ceramics",					"pipe-ceramic-straight")
+		add_tech("ceramics",					"pipe-ceramic-junction")
+		add_tech("ceramics",					"pipe-ceramic-elbow")
+		add_tech("alloy-processing",			"pipe-bronze-straight")
+		add_tech("alloy-processing",			"pipe-bronze-junction")
+		add_tech("alloy-processing",			"pipe-bronze-elbow")
+		add_tech("zinc-processing",				"pipe-brass-straight")
+		add_tech("zinc-processing",				"pipe-brass-junction")
+		add_tech("zinc-processing",				"pipe-brass-elbow")
+		add_tech("titanium-processing",			"pipe-titanium-straight")
+		add_tech("titanium-processing",			"pipe-titanium-junction")
+		add_tech("titanium-processing",			"pipe-titanium-elbow")
+		add_tech("tungsten-processing",			"pipe-tungsten-straight")
+		add_tech("tungsten-processing",			"pipe-tungsten-junction")
+		add_tech("tungsten-processing",			"pipe-tungsten-elbow")
+		add_tech("nitinol-processing",			"pipe-nitinol-straight")
+		add_tech("nitinol-processing",			"pipe-nitinol-junction")
+		add_tech("nitinol-processing",			"pipe-nitinol-elbow")
+		add_tech("tungsten-alloy-processing",	"pipe-copper-tungsten-straight")
+		add_tech("tungsten-alloy-processing",	"pipe-copper-tungsten-junction")
+		add_tech("tungsten-alloy-processing",	"pipe-copper-tungsten-elbow")
+	end
 	
-	-----------------------------------------------------------------------
-	------ INFINITE THANKS TO KIRAZY FOR THE HELP AND DOCUMENTATION  ------
-	--------------- https://mods.factorio.com/user/Kirazy -----------------
-	-----------------------------------------------------------------------
-	if mods ["reskins-bobs"] then
-		-- Initialise material mapping
-		local material_map =
-		{
-			["copper"] = {1},
-			["stone"] = {1},
-			["bronze"] = {2},
-			["steel"] = {2},
-			["plastic"] = {3},
-			["brass"] = {3},
-			["titanium"] = {4},
-			["ceramic"] = {4},
-			["tungsten"] = {4},
-			["nitinol"] = {5},
-			["copper-tungsten"] = {5}
-		}
-
-		-- Assign tiered icons
-		for material, map in pairs(material_map) do
-		
-			local icon_path = "__flow-control-expanded-bob__/graphics/icon/reskin/"
+	-- Assign tiered icons
+	for material, map in pairs(material_map) do
+		-----------------------------------------------------------------------
+		------ INFINITE THANKS TO KIRAZY FOR THE HELP AND DOCUMENTATION  ------
+		--------------- https://mods.factorio.com/user/Kirazy -----------------
+		-----------------------------------------------------------------------
+		if mods ["reskins-bobs"] then
 			local tier = map[1]
 
 			-- Bob straight pipe
@@ -813,7 +780,7 @@ local overflow_bob_pipe_names = {} do
 				str_pipe_icon_inputs.tier_labels = true
 				jun_pipe_icon_inputs.tier_labels = true
 				elb_pipe_icon_inputs.tier_labels = true
-
+			
 				reskins.lib.append_tier_labels(tier, str_bob_pipe_icon_inputs)
 				reskins.lib.append_tier_labels(tier, jun_bob_pipe_icon_inputs)
 				reskins.lib.append_tier_labels(tier, elb_bob_pipe_icon_inputs)

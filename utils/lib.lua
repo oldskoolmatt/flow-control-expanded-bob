@@ -1,8 +1,8 @@
----------------------------------------------------------------------
----- data.lua -------------------------------------------------------
----------------------------------------------------------------------
--- here is where all of the fixed references and functions are stored
----------------------------------------------------------------------
+------------------------------------------------------------------
+---- data.lua ----------------------------------------------------
+------------------------------------------------------------------
+-- here is where all the fixed references and functions are stored
+------------------------------------------------------------------
 
 -- groups
 data:extend
@@ -25,6 +25,18 @@ data:extend
 
 ----------------------------------
 
+-- Define paths
+if mods ["reskins-bobs"] then
+	flow_bob_picture_path = "__reskins-bobs__/graphics/entity/logistics/pipe/"
+	flow_bob_icon_path = "__flow-control-expanded-bob__/graphics/icon/reskin/"
+	flow_bob_covers_path = "__reskins-bobs__/graphics/entity/logistics/pipe-covers/"
+else
+	flow_bob_picture_path = "__boblogistics__/graphics/entity/pipe/"
+	flow_bob_icon_path = "__flow-control-expanded-bob__/graphics/icon/base/"
+	flow_bob_covers_path = "__boblogistics__/graphics/entity/pipe/"
+end
+flow_bob_shadow_covers_path = "__base__/graphics/entity/pipe-covers"
+
 -- Subgroup generation function
 function flow_bob_make_subgroup(name, order)
 	local make_subgroup = util.table.deepcopy(data.raw["item-subgroup"]["fluid-network-placeholder"])
@@ -34,7 +46,7 @@ function flow_bob_make_subgroup(name, order)
 end
 
 -- Subgroup entity assignement function
-function flow_bob_assign_assign_subgroup(item_name, item_subgroup, item_order)
+function flow_bob_assign_subgroup(item_name, item_subgroup, item_order)
 	if data.raw.item and data.raw.item[item_name] then
 		data.raw.item[item_name].subgroup = item_subgroup
 		if item_order ~= nil then
@@ -67,7 +79,22 @@ function flow_bob_remove_bob_valve(old_valve)
 	end
 end
 
--- Reskin flow-bob valves
+-- Assign icon function
+function flow_bob_assign_icon(item_name, type)
+	data.raw.item[item_name].icon =  flow_bob_icon_path .. item_name .. ".png"
+	data.raw.item[item_name].icon_size = 64
+	data.raw.item[item_name].scale = 0.5
+	data.raw[type][item_name].icon =  flow_bob_icon_path .. item_name .. ".png"
+	data.raw[type][item_name].icon_size = 64
+	data.raw[type][item_name].scale = 0.5
+end
+
+-- Technology add function
+function flow_bob_add_tech(technology, recipe)
+	table.insert(data.raw.technology[technology].effects,{type = "unlock-recipe", recipe = recipe})
+end
+
+-- Reskin flow-bob valves function
 function flow_bob_reskin_valve(valve_name)
 	local icon_path = "__flow-control-expanded-bob__/graphics/icon/valve/reskin/"
 	local sheet_path = "__flow-control-expanded-bob__/graphics/entity/valve/reskin/"

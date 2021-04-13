@@ -79,15 +79,14 @@ for material, map in pairs(material_map) do
 	reskins.lib.assign_icons(elb_angels_pipe_icon_name, elb_angels_pipe_icon_inputs)
 end
 
+-- Define local variables
+local picture_path = "__reskins-angels__/graphics/entity/smelting/pipe/"
+local icon_path = "/graphics/icon/reskin/angels"
+local covers_path = "__reskins-angels__/graphics/entity/smelting/pipe-covers/"
+local shadow_covers_path = flow_bob_shadow_covers_path
+
 -- Assign pictures to entities
 for material, map in pairs(material_map) do
-
-	-- Define local variables
-	local picture_path = "__reskins-angels__/graphics/entity/smelting/pipe/"
-	local icon_path = "/graphics/icon/reskin/angels"
-	local covers_path = flow_bob_covers_path
-	local shadow_covers_path = flow_bob_shadow_covers_path
-	
 	if data.raw["storage-tank"] and data.raw["storage-tank"]["pipe-" .. material .. "-straight"] then
 	
 		data.raw["storage-tank"]["pipe-" .. material .. "-straight"].pictures.picture =
