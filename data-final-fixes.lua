@@ -2,21 +2,22 @@
 ---- data-final-fixes.lua ----
 ------------------------------
 
-local make_subgroup = flow_bob_make_subgroup
-local assign_subgroup = flow_bob_assign_subgroup
-local material_table =
-{
-	"copper",
-	"stone",
-	"bronze",
-	"steel",
-	"plastic",
-	"brass",
-	"titanium",
-	"ceramic",
-	"tungsten",
-	"nitinol",
-	"copper-tungsten"
+-- Fetch functions from library
+local make_subgroup = require("utils.lib").make_subgroup
+local assign_subgroup = require("utils.lib").assign_subgroup
+
+local materials = {
+	["copper"] = {row = 1},
+	["stone"] = {row = 3},
+	["bronze"] = {row = 4},
+	["steel"] = {row = 5},
+	["plastic"] = {row = 6},
+	["brass"] = {row = 7},
+	["titanium"] = {row = 8},
+	["ceramic"] = {row = 9},
+	["tungsten"] = {row = 10},
+	["nitinol"] = {row = 11},
+	["copper-tungsten"] = {row = 12},
 }
 
 -- Generate subgroups for bob pipes
@@ -47,27 +48,16 @@ assign_subgroup("pipe-to-ground", 	"pipes-row-2", "2") -- Base
 assign_subgroup("pipe-straight",	"pipes-row-2", "3") -- Flow control
 assign_subgroup("pipe-junction",	"pipes-row-2", "4") -- Flow control
 assign_subgroup("pipe-elbow",		"pipes-row-2", "5") -- Flow control
-for _, material in pairs(material_table) do
+for material, parameters in pairs(materials) do
 	-- Assign material to row
-	if material == "copper" then new_pipes_row = "1" end
-	if material == "stone" then new_pipes_row = "3" end
-	if material == "bronze" then new_pipes_row = "4" end
-	if material == "steel" then new_pipes_row = "5" end
-	if material == "plastic" then new_pipes_row = "6" end
-	if material == "brass" then new_pipes_row = "7" end
-	if material == "titanium" then new_pipes_row = "8" end
-	if material == "ceramic" then new_pipes_row = "9" end
-	if material == "tungsten" then new_pipes_row = "10" end
-	if material == "nitinol" then new_pipes_row = "11" end
-	if material == "copper-tungsten" then new_pipes_row = "12" end
-	local subgroup_row = "pipes-row-" .. new_pipes_row
+	local subgroup_row = "pipes-row-"..parameters.row
 
 	-- Assign subgroup
-	assign_subgroup(material .. "-pipe",				subgroup_row, "1") -- pipe
-	assign_subgroup(material .. "-pipe-to-ground",		subgroup_row, "2") -- pipe to ground
-	assign_subgroup("pipe-" .. material .. "-straight", subgroup_row, "3") -- straight
-	assign_subgroup("pipe-" .. material .. "-junction", subgroup_row, "4") -- junction
-	assign_subgroup("pipe-" .. material .. "-elbow", 	subgroup_row, "5") -- elbow
+	assign_subgroup(material.."-pipe",				subgroup_row, "1") -- pipe
+	assign_subgroup(material.."-pipe-to-ground",	subgroup_row, "2") -- pipe to ground
+	assign_subgroup("pipe-"..material.."-straight", subgroup_row, "3") -- straight
+	assign_subgroup("pipe-"..material.."-junction", subgroup_row, "4") -- junction
+	assign_subgroup("pipe-"..material.."-elbow", 	subgroup_row, "5") -- elbow
 end
 
 -- Generate subgroups for other entities
@@ -123,6 +113,7 @@ assign_subgroup("water-miner-5",	"pumpjacks-2") -- Bobmining
 if not mods ["P.U.M.P.S."] then
 	assign_subgroup("offshore-pump",	"offshore-pumps") -- Base
 end
+
 assign_subgroup("offshore-pump-1",		"offshore-pumps") -- P-U-M-P-S
 assign_subgroup("offshore-pump-2",		"offshore-pumps") -- P-U-M-P-S
 assign_subgroup("offshore-pump-3",		"offshore-pumps") -- P-U-M-P-S
