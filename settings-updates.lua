@@ -1,5 +1,3 @@
-
-
 -- Void setting function
 local function remove_setting(setting, name)
 	if data.raw[setting] and data.raw[setting][name] then
@@ -18,5 +16,5 @@ local function remove_setting(setting, name)
 	end
 end
 
--- Removed settings
+-- Remove settings
 remove_setting("bool-setting", "flow-control-new-group")

@@ -1,4 +1,24 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.1.25
+Date: ????
+  Changes:
+    - Code cleanup and consolidation; global variables are now locally scoped
+---------------------------------------------------------------------------------------------------
+Version: 1.1.24
+Date: 13.04. 2021
+  Changes:
+    - Higher res icons
+  Bugfixes:
+    - Fixed the mess caused by my drunkenness somewhere in between v1.1.21 and v1.1.23:
+    - Pipe covers use the right sprites again
+    - Pipes use the right sprites again
+    - All the code tweaks that were meant to be in from v1.1.21 are now implemented (for real this time)
+---------------------------------------------------------------------------------------------------
+Version: 1.1.23
+Date: 26. 03. 2021
+  Bugfixes:
+    - Fixed storage tank all corners not showing up
+---------------------------------------------------------------------------------------------------
 Version: 1.1.22
 Date: 26. 03. 2021
   Bugfixes:
@@ -52,9 +72,9 @@ Date: 11. 02. 2021
   Features:
     - Supports "Kirazy's Artisanal Reskins: Bob's Mods"
     - Valves from "Bob's Logistics" and "Flow Control" are merged into a single set of four valves:
-      - One Way Valve: allows flow in one direction only
-      - Overflow Valve: allows in one direction flow if input is > 80% full
-      - Top Up Valve: allows flow in one direction if output is < 80% full
-      - Top Up Valve: allows flow in one direction if output is < 20% full
+    - One Way Valve: allows flow in one direction only
+    - Overflow Valve: allows in one direction flow if input is > 80% full
+    - Top Up Valve: allows flow in one direction if output is < 80% full
+    - Top Up Valve: allows flow in one direction if output is < 20% full
     - Each pipe from "Bob's Logistics" has straight, elbow, and junction equivalents from "Flow Control"
     - All entities related to fluid network (pumps, storage tanks, pumpjacks, etc) are under a new tab in crafting menu

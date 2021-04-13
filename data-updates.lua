@@ -1,23 +1,22 @@
-
 -- Generate pipes for boblogistics
 require("prototypes.flow-control-bob")
 
--- Overrides some pipes edited by Angel's Smelting
-if mods ["reskins-angels"] and mods ["angelssmelting"] then
-	require("prototypes.flow-control-angels-override")
-end
+-- Conform pipe materials to those added by reskins-angels
+require("prototypes.flow-control-angels-override")
 
 -- Remove bob valves
-local remove_bob_valve = flow_bob_remove_bob_valve
-remove_bob_valve("bob-valve")
-remove_bob_valve("bob-overflow-valve")
-remove_bob_valve("bob-topup-valve")
+local remove_valve = require("utils.lib").remove_bob_valve
 
--- Valves reskin
+remove_valve("bob-valve")
+remove_valve("bob-overflow-valve")
+remove_valve("bob-topup-valve")
+
+-- Reskin valves
 if mods ["reskins-bobs"] then
-	local reskin_valve = flow_bob_reskin_valve
+	local reskin_valve = require("utils.lib").reskin_valve
+
 	reskin_valve("check-valve")
 	reskin_valve("overflow-valve")
 	reskin_valve("underflow-valve")
-	reskin_valve("underflow-valve-2")	
+	reskin_valve("underflow-valve-2")
 end
