@@ -7,117 +7,99 @@
 ---- data-updates.lua ----
 --------------------------
 
+-- If reskins-angels and angelssmelting aren't both present, do nothing
+if not (mods["reskins-angels"] and mods["angelssmelting"]) then return end
+
 -- Set tier mapping
-local material_map =
-{
-	["titanium"] = {4},
-	["ceramic"] = {4},
-	["tungsten"] = {4},
-	["nitinol"] = {5}
+local materials = {
+	["titanium"] = 4,
+	["ceramic"] = 4,
+	["tungsten"] = 4,
+	["nitinol"] = 5,
 }
 
--- Assign tiered icons
-for material, map in pairs(material_map) do
+local pipes = {
+	"straight",
+	"junction",
+	"elbow",
+}
 
-	local icon_path = "__flow-control-expanded-bob__/graphics/icon/reskin/angels/"
-	local tier = map[1]
-
-	-- Angels straight pipe
-	str_angels_pipe_icon_inputs =
+-- Constructor function for icon inputs
+local function set_icon_inputs(material, variant)
+	return
 	{
-		icon = icon_path .. "pipe-" .. material .. "-straight.png",
+		icon = "__flow-control-expanded-bob__/graphics/icon/reskin/angels/pipe-"..material.."-"..variant..".png",
 		icon_size = 64,
-		icon_mipmaps = 4,
-		make_icon_pictures = true
+		make_icon_pictures = true,
+		tier_labels = reskins.lib.setting("reskins-bobs-do-pipe-tier-labeling"),
 	}
-
-	-- Angels junction pipe
-	jun_angels_pipe_icon_inputs =
-	{
-		icon = icon_path .. "pipe-" .. material .. "-junction.png",
-		icon_size = 64,
-		icon_mipmaps = 4,
-		make_icon_pictures = true
-	}
-
-	-- Angels elbow pipe
-	elb_angels_pipe_icon_inputs =
-	{
-		icon = icon_path .. "pipe-" .. material .. "-elbow.png",
-		icon_size = 64,
-		icon_mipmaps = 4,
-		make_icon_pictures = true
-	}
-
-	-- Setup tier labels
-	if reskins.lib.setting("reskins-bobs-do-pipe-tier-labeling") == true then
-		str_angels_pipe_icon_inputs.icon = {{icon = str_angels_pipe_icon_inputs.icon}}
-		jun_angels_pipe_icon_inputs.icon = {{icon = jun_angels_pipe_icon_inputs.icon}}
-		elb_angels_pipe_icon_inputs.icon = {{icon = elb_angels_pipe_icon_inputs.icon}}
-
-		str_angels_pipe_icon_inputs.tier_labels = true
-		jun_angels_pipe_icon_inputs.tier_labels = true
-		elb_angels_pipe_icon_inputs.tier_labels = true
-		
-		reskins.lib.append_tier_labels(tier, str_angels_pipe_icon_inputs)
-		reskins.lib.append_tier_labels(tier, jun_angels_pipe_icon_inputs)
-		reskins.lib.append_tier_labels(tier, elb_angels_pipe_icon_inputs)
-	else
-		str_angels_pipe_icon_inputs.tier_labels = false
-		jun_angels_pipe_icon_inputs.tier_labels = false
-		elb_angels_pipe_icon_inputs.tier_labels = false
-	end
-
-	-- Handle naming
-	str_angels_pipe_icon_name = "pipe-" .. material .."-straight"
-	jun_angels_pipe_icon_name = "pipe-" .. material .."-junction"
-	elb_angels_pipe_icon_name = "pipe-" .. material .."-elbow"
-
-	-- Assign tiering and icons to targeted pipes
-	reskins.lib.assign_icons(str_angels_pipe_icon_name, str_angels_pipe_icon_inputs)
-	reskins.lib.assign_icons(jun_angels_pipe_icon_name, jun_angels_pipe_icon_inputs)
-	reskins.lib.assign_icons(elb_angels_pipe_icon_name, elb_angels_pipe_icon_inputs)
 end
 
--- Define local variables
-local picture_path = "__reskins-angels__/graphics/entity/smelting/pipe/"
-local icon_path = "/graphics/icon/reskin/angels"
-local covers_path = "__reskins-angels__/graphics/entity/smelting/pipe-covers/"
-local shadow_covers_path = flow_bob_shadow_covers_path
+-- Assign tiered icons
+for material, tier in pairs(materials) do
+	-- Setup inputs
+	local straight_icon_inputs = set_icon_inputs(material, "straight")
+	local junction_icon_inputs = set_icon_inputs(material, "junction")
+	local elbow_icon_inputs = set_icon_inputs(material, "elbow")
+
+	-- Append tier labels (the function will do nothing if tier_labels is false)
+	reskins.lib.append_tier_labels(tier, straight_icon_inputs)
+	reskins.lib.append_tier_labels(tier, junction_icon_inputs)
+	reskins.lib.append_tier_labels(tier, elbow_icon_inputs)
+
+	-- Assign tiering and icons to targeted pipes
+	reskins.lib.assign_icons("pipe-"..material.."-straight", straight_icon_inputs)
+	reskins.lib.assign_icons("pipe-"..material.."-junction", junction_icon_inputs)
+	reskins.lib.assign_icons("pipe-"..material.."-elbow", elbow_icon_inputs)
+end
 
 -- Assign pictures to entities
-for material, map in pairs(material_map) do
-	if data.raw["storage-tank"] and data.raw["storage-tank"]["pipe-" .. material .. "-straight"] then
-	
-		data.raw["storage-tank"]["pipe-" .. material .. "-straight"].pictures.picture =
-		{
-			north = flow_bob_str_pictures(material, picture_path).straight_vertical,
-			east = flow_bob_str_pictures(material, picture_path).straight_horizontal,
-			south = flow_bob_str_pictures(material, picture_path).straight_vertical,
-			west = flow_bob_str_pictures(material, picture_path).straight_horizontal
-		}
-		data.raw["storage-tank"]["pipe-" .. material .. "-straight"].fluid_box.pipe_covers = flow_bob_pipe_covers_pictures(material, covers_path, shadow_covers_path)
-	end
-	
-	if data.raw["storage-tank"] and data.raw["storage-tank"]["pipe-" .. material .. "-junction"] then
-		data.raw["storage-tank"]["pipe-" .. material .. "-junction"].pictures.picture =
-		{
-			north = flow_bob_jun_pictures(material, picture_path).t_down,
-			east = flow_bob_jun_pictures(material, picture_path).t_left,
-			south = flow_bob_jun_pictures(material, picture_path).t_up,
-			west = flow_bob_jun_pictures(material, picture_path).t_right
-		}
-		data.raw["storage-tank"]["pipe-" .. material .. "-junction"].fluid_box.pipe_covers = flow_bob_pipe_covers_pictures(material, covers_path, shadow_covers_path)
-	end
-	
-	if data.raw["storage-tank"] and data.raw["storage-tank"]["pipe-" .. material .. "-elbow"] then
-		data.raw["storage-tank"]["pipe-" .. material .. "-elbow"].pictures.picture =
-		{
-			north = flow_bob_elb_pictures(material, picture_path).corner_down_right,
-			east = flow_bob_elb_pictures(material, picture_path).corner_down_left,
-			south = flow_bob_elb_pictures(material, picture_path).corner_up_left,
-			west = flow_bob_elb_pictures(material, picture_path).corner_up_right
-		}
-		data.raw["storage-tank"]["pipe-" .. material .. "-elbow"].fluid_box.pipe_covers = flow_bob_pipe_covers_pictures(material, covers_path, shadow_covers_path)
+for material, _ in pairs(materials) do
+	-- Setup inputs
+	local inputs = {
+		mod = "angels",
+		group = "smelting",
+		material = material,
+	}
+
+	-- Fetch pipe pictures and pipe covers
+	local pipe_pictures = reskins.lib.pipe_pictures(inputs)
+	local pipe_covers = reskins.lib.pipe_covers(inputs)
+
+	-- Fetch pipe entities
+	local straight_pipe = data.raw["storage-tank"]["pipe-"..material.."-straight"]
+	local junction_pipe = data.raw["storage-tank"]["pipe-"..material.."-junction"]
+	local elbow_pipe = data.raw["storage-tank"]["pipe-"..material.."-elbow"]
+
+	if data.raw["storage-tank"] then
+		if straight_pipe then
+			straight_pipe.pictures.picture = {
+				north = pipe_pictures.straight_vertical,
+				east = pipe_pictures.straight_horizontal,
+				south = pipe_pictures.straight_vertical,
+				west = pipe_pictures.straight_horizontal
+			}
+			straight_pipe.fluid_box.pipe_covers = pipe_covers
+		end
+
+		if junction_pipe then
+			junction_pipe.pictures.picture = {
+				north = pipe_pictures.t_down,
+				east = pipe_pictures.t_left,
+				south = pipe_pictures.t_up,
+				west = pipe_pictures.t_right
+			}
+			junction_pipe.fluid_box.pipe_covers = pipe_covers
+		end
+
+		if elbow_pipe then
+			elbow_pipe.pictures.picture = {
+				north = pipe_pictures.corner_down_right,
+				east = pipe_pictures.corner_down_left,
+				south = pipe_pictures.corner_up_left,
+				west = pipe_pictures.corner_up_right
+			}
+			elbow_pipe.fluid_box.pipe_covers = pipe_covers
+		end
 	end
 end
