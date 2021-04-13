@@ -8,6 +8,7 @@
 --------------------------
 
 -- If the reskins mods don't do anything, we shouldn't either
+if not mods["reskins-angels"] then return end
 if not (reskins.angels and reskins.angels.triggers.smelting.entities) then return end
 if not (reskins.bobs and reskins.bobs.triggers.logistics.entities) then return end
 
