@@ -52,17 +52,17 @@ end
 
 -- Begin construction
 local materials = {
-	["brass"] = {sort = "a", technology = "zinc-processing"},
-	["bronze"] = {sort = "b", technology = "alloy-processing"},
-	["copper"] = {sort = "c", enabled = true},
-	["ceramic"] = {sort = "e", technology = "ceramics"},
-	["stone"] = {sort = "n", enabled = true},
-	["plastic"] = {sort = "p", technology = "plastics"},
-	["steel"] = {sort = "s", technology = "steel-processing"},
-	["titanium"] = {sort = "t", technology = "titanium-processing"},
-	["tungsten"] = {sort = "u", technology = "tungsten-processing"},
-	["copper-tungsten"] = {sort = "w", technology = "tungsten-alloy-processing"},
-	["nitinol"] = {sort = "l", technology = "nitinol-processing"},
+	["brass"] = {technology = "zinc-processing"},
+	["bronze"] = {technology = "alloy-processing"},
+	["copper"] = {enabled = true},
+	["ceramic"] = {technology = "ceramics"},
+	["stone"] = {enabled = true},
+	["plastic"] = {technology = "plastics"},
+	["steel"] = {technology = "steel-processing"},
+	["titanium"] = {technology = "titanium-processing"},
+	["tungsten"] = {technology = "tungsten-processing"},
+	["copper-tungsten"] = {technology = "tungsten-alloy-processing"},
+	["nitinol"] = {technology = "nitinol-processing"},
 }
 
 local pipes = {
