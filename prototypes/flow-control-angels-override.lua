@@ -38,20 +38,17 @@ end
 
 -- Assign tiered icons
 for material, tier in pairs(materials) do
-	-- Setup inputs
-	local straight_icon_inputs = set_icon_inputs(material, "straight")
-	local junction_icon_inputs = set_icon_inputs(material, "junction")
-	local elbow_icon_inputs = set_icon_inputs(material, "elbow")
+	for _, pipe in pairs(pipes) do
+		-- Setup inputs
+		local icon_inputs = set_icon_inputs(material, pipe)
 
-	-- Append tier labels (the function will do nothing if tier_labels is false)
-	reskins.lib.append_tier_labels(tier, straight_icon_inputs)
-	reskins.lib.append_tier_labels(tier, junction_icon_inputs)
-	reskins.lib.append_tier_labels(tier, elbow_icon_inputs)
+		-- Append tier labels (the function will do nothing if tier_labels is false)
+		reskins.lib.append_tier_labels(tier, icon_inputs)
 
-	-- Assign tiering and icons to targeted pipes
-	reskins.lib.assign_icons("pipe-"..material.."-straight", straight_icon_inputs)
-	reskins.lib.assign_icons("pipe-"..material.."-junction", junction_icon_inputs)
-	reskins.lib.assign_icons("pipe-"..material.."-elbow", elbow_icon_inputs)
+		-- Assign tiering and icons to targeted pipes
+		local name = (material == "iron") and "pipe-"..pipe or "pipe-"..material.."-"..pipe
+		reskins.lib.assign_icons(name, icon_inputs)
+	end
 end
 
 -- Assign pictures to entities
