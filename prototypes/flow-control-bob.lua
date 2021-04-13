@@ -226,6 +226,7 @@ elseif (reskins.bobs and reskins.bobs.triggers.logistics.entities) then
 			icon_size = 64,
 			make_icon_pictures = true,
 			tier_labels = reskins.lib.setting("reskins-bobs-do-pipe-tier-labeling"),
+			type = "storage-tank",
 		}
 	end
 
