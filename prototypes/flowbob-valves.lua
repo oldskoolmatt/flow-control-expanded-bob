@@ -7,15 +7,7 @@
 ---- data.lua ----
 ------------------
 
--- Remove duplicate valves
-local remove_entity = require("utils.lib").remove_entity
-local entity = "storage-tank"
-
-remove_entity("check-valve",		"fluid-handling", entity)
-remove_entity("overflow-valve",		"fluid-handling", entity)
-remove_entity("underflow-valve",	"fluid-handling", entity)
-
--- Create flow control top-valve equivalent
+-- Create flow control top-up valve equivalent
 local flowbob_topup_valve = util.merge{data.raw.item["bob-topup-valve"], -- Item
 {
 	name = "flowbob-topup-valve",
@@ -43,6 +35,15 @@ if data.raw.technology["fluid-handling"] then -- Tech
 	table.insert(data.raw["technology"]["fluid-handling"].effects, {type = "unlock-recipe", recipe = "flowbob-topup-valve"})
 end
 
+-- Add recipe ingredients
+table.insert(data.raw["recipe"]["bob-valve"].ingredients, {type="item", name="iron-gear-wheel", amount=1})
+table.insert(data.raw["recipe"]["bob-overflow-valve"].ingredients, {type="item", name="iron-gear-wheel", amount=1})
+table.insert(data.raw["recipe"]["bob-overflow-valve"].ingredients, {type="item", name="electronic-circuit", amount=1})
+table.insert(data.raw["recipe"]["bob-topup-valve"].ingredients, {type="item", name="electronic-circuit", amount=1})
+table.insert(data.raw["recipe"]["bob-topup-valve"].ingredients, {type="item", name="iron-gear-wheel", amount=1})
+table.insert(data.raw["recipe"]["flowbob-topup-valve"].ingredients, {type="item", name="electronic-circuit", amount=1})
+table.insert(data.raw["recipe"]["flowbob-topup-valve"].ingredients, {type="item", name="iron-gear-wheel", amount=1})
+
 -- Assign icons to valves
 local icon_path = "__Flow Control__/graphics/icon/"
 
@@ -56,15 +57,6 @@ data.raw["storage-tank"]["bob-topup-valve"].icon = icon_path .. "underflow-valve
 local icon_path = "__flow-control-expanded-bob__/graphics/icon/valve/"
 data.raw.item["flowbob-topup-valve"].icon = icon_path .. "flowbob-topup-valve.png"
 data.raw["storage-tank"]["flowbob-topup-valve"].icon = icon_path .. "flowbob-topup-valve.png"
-
--- Add recipe ingredients
-table.insert(data.raw["recipe"]["bob-valve"].ingredients, {type="item", name="iron-gear-wheel", amount=1})
-table.insert(data.raw["recipe"]["bob-overflow-valve"].ingredients, {type="item", name="iron-gear-wheel", amount=1})
-table.insert(data.raw["recipe"]["bob-overflow-valve"].ingredients, {type="item", name="electronic-circuit", amount=1})
-table.insert(data.raw["recipe"]["bob-topup-valve"].ingredients, {type="item", name="electronic-circuit", amount=1})
-table.insert(data.raw["recipe"]["bob-topup-valve"].ingredients, {type="item", name="iron-gear-wheel", amount=1})
-table.insert(data.raw["recipe"]["flowbob-topup-valve"].ingredients, {type="item", name="electronic-circuit", amount=1})
-table.insert(data.raw["recipe"]["flowbob-topup-valve"].ingredients, {type="item", name="iron-gear-wheel", amount=1})
 
 -- Assign skins to valves
 if not (reskins.bobs and reskins.bobs.triggers.logistics.entities) then
@@ -126,7 +118,7 @@ else
 
 	local tint_map =
 	{
-		["flowbob-topup-valve"] = util.color("fffb1f"),
+		["flowbob-topup-valve"] = util.color("fcfcfc"),
 	}
 
 	local function cardinal_pictures(x, tint)
