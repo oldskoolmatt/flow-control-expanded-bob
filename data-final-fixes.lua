@@ -75,7 +75,7 @@ make_subgroup("pumpjacks-1",	"a-b-1") -- pumpjacks
 make_subgroup("pumpjacks-2",	"a-b-2") -- pumpjacks
 make_subgroup("compressors-1",	"a-c-1") -- compressors
 make_subgroup("compressors-2",	"a-c-2") -- compressors
-make_subgroup("pumps",			"a-d-1") -- pumps
+make_subgroup("pumps",		"a-d-1") -- pumps
 make_subgroup("offshore-pumps",	"a-e-1") -- offshore pumps
 
 -- Storage tanks
