@@ -1,8 +1,11 @@
-------------------------------------------------------------------
----- data.lua ----------------------------------------------------
-------------------------------------------------------------------
--- here is where all the fixed references and functions are stored
-------------------------------------------------------------------
+-----------------------------------------------------------------------
+------ INFINITE THANKS TO KIRAZY FOR THE HELP AND DOCUMENTATION  ------
+--------------- https://mods.factorio.com/user/Kirazy -----------------
+-----------------------------------------------------------------------
+
+-----------------------------------------------------------------------
+------- here is where all the fixed references and functions are stored
+-----------------------------------------------------------------------
 
 -- Setup function host
 local functions = {}
@@ -34,20 +37,20 @@ function functions.assign_subgroup(item_name, item_subgroup, item_order)
 end
 
 -- Duplicate valve remove function
-function functions.remove_bob_valve(old_valve)
-	if old_valve == "bob-valve" then
-		data.raw.recipe["bob-valve"] = nil
-		data.raw.item["bob-valve"] = nil
-		data.raw["storage-tank"]["bob-valve"] = nil
-	elseif data.raw.technology["fluid-handling"] and data.raw.technology["fluid-handling"].effects then
-		for i, effect in pairs(data.raw.technology["fluid-handling"].effects) do
+function functions.remove_duplicate_valve(old_valve, tech_name)
+	if tech_name ~= nil and data.raw.technology[tech_name] and data.raw.technology[tech_name].effects then
+		for i, effect in pairs(data.raw.technology[tech_name].effects) do
 			if effect.type == "unlock-recipe" and effect.recipe == old_valve then
-				table.remove(data.raw.technology["fluid-handling"].effects,i)
+				table.remove(data.raw.technology[tech_name].effects,i)
 				data.raw.recipe[old_valve] = nil
 				data.raw.item[old_valve] = nil
 				data.raw["storage-tank"][old_valve] = nil
 			end
 		end
+	elseif data.raw.item[old_valve] then
+		data.raw.recipe[old_valve] = nil
+		data.raw.item[old_valve] = nil
+		data.raw["storage-tank"][old_valve] = nil
 	end
 end
 
@@ -65,21 +68,6 @@ end
 -- Technology add function
 function functions.add_tech(technology, recipe)
 	table.insert(data.raw.technology[technology].effects,{type = "unlock-recipe", recipe = recipe})
-end
-
--- Reskin flow-bob valves function
-function functions.reskin_valve(valve_name)
-	local icon_path = "__flow-control-expanded-bob__/graphics/icon/valve/reskin/"
-	local sheet_path = "__flow-control-expanded-bob__/graphics/entity/valve/reskin/"
-	data.raw["storage-tank"][valve_name].pictures.picture.sheet.filename = sheet_path .. valve_name ..".png"
-	data.raw["storage-tank"][valve_name].pictures.picture.sheet.priority = "extra-high"
-	data.raw["storage-tank"][valve_name].pictures.picture.sheet.frames = 4
-	data.raw["storage-tank"][valve_name].pictures.picture.sheet.width = 128
-	data.raw["storage-tank"][valve_name].pictures.picture.sheet.height = 128
-	data.raw["storage-tank"][valve_name].pictures.picture.sheet.scale = 0.5
-	data.raw.item[valve_name].icon = icon_path .. valve_name .. ".png"
-	data.raw.item[valve_name].icon_size = 64
-	data.raw.item[valve_name].icon_mipmaps = 4
 end
 
 return functions

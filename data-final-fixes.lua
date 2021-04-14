@@ -1,12 +1,21 @@
+-----------------------------------------------------------------------
+------ INFINITE THANKS TO KIRAZY FOR THE HELP AND DOCUMENTATION  ------
+--------------- https://mods.factorio.com/user/Kirazy -----------------
+-----------------------------------------------------------------------
+
 ------------------------------
 ---- data-final-fixes.lua ----
 ------------------------------
+
+-- Apply overrides
+require ("prototypes.override.overrides")
 
 -- Fetch functions from library
 local make_subgroup = require("utils.lib").make_subgroup
 local assign_subgroup = require("utils.lib").assign_subgroup
 
-local materials = {
+local materials =
+{
 	["copper"] = {row = 1},
 	["stone"] = {row = 3},
 	["bronze"] = {row = 4},
@@ -113,7 +122,6 @@ assign_subgroup("water-miner-5",	"pumpjacks-2") -- Bobmining
 if not mods ["P.U.M.P.S."] then
 	assign_subgroup("offshore-pump",	"offshore-pumps") -- Base
 end
-
 assign_subgroup("offshore-pump-1",		"offshore-pumps") -- P-U-M-P-S
 assign_subgroup("offshore-pump-2",		"offshore-pumps") -- P-U-M-P-S
 assign_subgroup("offshore-pump-3",		"offshore-pumps") -- P-U-M-P-S

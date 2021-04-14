@@ -1,6 +1,6 @@
---------------------
----- INITIALISE ----
---------------------
+------------------
+---- data.lua ----
+------------------
 
 -- Setup crafting tabs
 data:extend({
@@ -19,3 +19,6 @@ data:extend({
 		name = "fluid-network-placeholder",
 	}
 })
+
+-- Create valves and removes duplicates
+require("prototypes.flowbob-valves")
