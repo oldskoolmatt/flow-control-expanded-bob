@@ -36,21 +36,21 @@ function functions.assign_subgroup(item_name, item_subgroup, item_order)
 	end
 end
 
--- Duplicate valve remove function
-function functions.remove_duplicate_valve(old_valve, tech_name)
-	if tech_name ~= nil and data.raw.technology[tech_name] and data.raw.technology[tech_name].effects then
+-- Remove entity function
+function functions.remove_entity(entity_name, tech_name, entity)
+	if data.raw.technology[tech_name] and data.raw.technology[tech_name].effects then
 		for i, effect in pairs(data.raw.technology[tech_name].effects) do
-			if effect.type == "unlock-recipe" and effect.recipe == old_valve then
+			if effect.type == "unlock-recipe" and effect.recipe == entity_name then
 				table.remove(data.raw.technology[tech_name].effects,i)
-				data.raw.recipe[old_valve] = nil
-				data.raw.item[old_valve] = nil
-				data.raw["storage-tank"][old_valve] = nil
+				data.raw.recipe[entity_name] = nil
+				data.raw.item[entity_name] = nil
+				data.raw[entity][entity_name] = nil
 			end
 		end
-	elseif data.raw.item[old_valve] then
-		data.raw.recipe[old_valve] = nil
-		data.raw.item[old_valve] = nil
-		data.raw["storage-tank"][old_valve] = nil
+	elseif data.raw.item[entity_name] then
+		data.raw.recipe[entity_name] = nil
+		data.raw.item[entity_name] = nil
+		data.raw[entity][entity_name] = nil
 	end
 end
 
