@@ -13,14 +13,16 @@ if not (reskins.angels and reskins.angels.triggers.smelting.entities) then retur
 if not (reskins.bobs and reskins.bobs.triggers.logistics.entities) then return end
 
 -- Set tier mapping
-local materials = {
+local materials =
+{
 	["titanium"] = 4,
 	["ceramic"] = 4,
 	["tungsten"] = 4,
 	["nitinol"] = 5,
 }
 
-local pipes = {
+local pipes =
+{
 	"straight",
 	"junction",
 	"elbow",
@@ -56,7 +58,8 @@ end
 -- Assign pictures to entities
 for material, _ in pairs(materials) do
 	-- Setup inputs
-	local inputs = {
+	local inputs =
+	{
 		mod = "angels",
 		group = "smelting",
 		material = material,
@@ -73,7 +76,8 @@ for material, _ in pairs(materials) do
 
 	if data.raw["storage-tank"] then
 		if straight_pipe then
-			straight_pipe.pictures.picture = {
+			straight_pipe.pictures.picture =
+			{
 				north = pipe_pictures.straight_vertical,
 				east = pipe_pictures.straight_horizontal,
 				south = pipe_pictures.straight_vertical,
@@ -83,7 +87,8 @@ for material, _ in pairs(materials) do
 		end
 
 		if junction_pipe then
-			junction_pipe.pictures.picture = {
+			junction_pipe.pictures.picture =
+			{
 				north = pipe_pictures.t_down,
 				east = pipe_pictures.t_left,
 				south = pipe_pictures.t_up,
@@ -93,7 +98,8 @@ for material, _ in pairs(materials) do
 		end
 
 		if elbow_pipe then
-			elbow_pipe.pictures.picture = {
+			elbow_pipe.pictures.picture =
+			{
 				north = pipe_pictures.corner_down_right,
 				east = pipe_pictures.corner_down_left,
 				south = pipe_pictures.corner_up_left,
