@@ -8,11 +8,12 @@
 ------------------
 
 -- Remove duplicate valves
-local remove_valve = require("utils.lib").remove_duplicate_valve
+local remove_entity = require("utils.lib").remove_entity
+local entity = "storage-tank"
 
-remove_valve("check-valve",		"fluid-handling")
-remove_valve("overflow-valve",	"fluid-handling")
-remove_valve("underflow-valve",	"fluid-handling")
+remove_entity("check-valve",		"fluid-handling", entity)
+remove_entity("overflow-valve",		"fluid-handling", entity)
+remove_entity("underflow-valve",	"fluid-handling", entity)
 
 -- Create flow control top-valve equivalent
 local flowbob_topup_valve = util.merge{data.raw.item["bob-topup-valve"], -- Item
