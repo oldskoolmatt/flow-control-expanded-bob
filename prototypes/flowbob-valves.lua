@@ -56,6 +56,15 @@ local icon_path = "__flow-control-expanded-bob__/graphics/icon/valve/"
 data.raw.item["flowbob-topup-valve"].icon = icon_path .. "flowbob-topup-valve.png"
 data.raw["storage-tank"]["flowbob-topup-valve"].icon = icon_path .. "flowbob-topup-valve.png"
 
+-- Add recipe ingredients
+table.insert(data.raw["recipe"]["bob-valve"].ingredients, {type="item", name="iron-gear-wheel", amount=1})
+table.insert(data.raw["recipe"]["bob-overflow-valve"].ingredients, {type="item", name="iron-gear-wheel", amount=1})
+table.insert(data.raw["recipe"]["bob-overflow-valve"].ingredients, {type="item", name="electronic-circuit", amount=1})
+table.insert(data.raw["recipe"]["bob-topup-valve"].ingredients, {type="item", name="electronic-circuit", amount=1})
+table.insert(data.raw["recipe"]["bob-topup-valve"].ingredients, {type="item", name="iron-gear-wheel", amount=1})
+table.insert(data.raw["recipe"]["flowbob-topup-valve"].ingredients, {type="item", name="electronic-circuit", amount=1})
+table.insert(data.raw["recipe"]["flowbob-topup-valve"].ingredients, {type="item", name="iron-gear-wheel", amount=1})
+
 -- Assign skins to valves
 if not (reskins.bobs and reskins.bobs.triggers.logistics.entities) then
 	
