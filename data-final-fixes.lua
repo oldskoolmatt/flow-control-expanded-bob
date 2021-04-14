@@ -8,7 +8,7 @@
 ------------------------------
 
 -- Apply overrides
-require ("prototypes.override.overrides")
+require ("prototypes.override.final-overrides")
 
 -- Fetch functions from library
 local make_subgroup = require("utils.lib").make_subgroup
@@ -45,10 +45,10 @@ make_subgroup("pipes-row-11",	"z-z-11") -- nitinol
 make_subgroup("pipes-row-12",	"z-z-12") -- copper-tungsten
 
 -- Assign subgroup to valves
-assign_subgroup("check-valve",			"valves") -- Flow control
-assign_subgroup("overflow-valve",		"valves") -- Flow control
-assign_subgroup("underflow-valve",		"valves") -- Flow control
-assign_subgroup("underflow-valve-2",	"valves") -- Flow control
+assign_subgroup("bob-valve",			"valves") -- Flow control
+assign_subgroup("bob-overflow-valve",	"valves") -- Flow control
+assign_subgroup("bob-top-up-valve",		"valves") -- Flow control
+assign_subgroup("flowbob-top-up-valve",	"valves") -- Flow control
 assign_subgroup("void-pump",			"valves") -- Flow control
 
 -- Assign subgroup to pipes
