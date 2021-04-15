@@ -10,6 +10,7 @@
 -- Fetch functions from library
 local rem_tech = require("utils.lib").rem_tech
 local rem_hide = require("utils.lib").remove_hidden_flag
+local hide_entity = require("utils.lib").hide_entity
 local remove_entity = require("utils.lib").remove_entity
 local replace_ingredient = require("utils.lib").replace_recipe_ingredient
 
@@ -27,14 +28,12 @@ rem_hide("bob-overflow-valve")
 rem_hide("bob-topup-valve")
 
 -- Remove duplicate valves
-local entity = "storage-tank"
-
-remove_entity("check-valve",		"fluid-handling", entity)
-remove_entity("overflow-valve",		"fluid-handling", entity)
-remove_entity("underflow-valve",	"fluid-handling", entity)
+hide_entity("check-valve",		"fluid-handling")
+hide_entity("overflow-valve",	"fluid-handling")
+hide_entity("underflow-valve",	"fluid-handling")
 
 -- Apply overrides
-require ("prototypes.override.angels-final-overrides")
-require ("prototypes.override.grouping-overrides")
-require ("prototypes.override.final-overrides")
+require("prototypes.override.angels-final-overrides")
+require("prototypes.override.grouping-overrides")
+require("prototypes.override.final-overrides")
 

@@ -35,6 +35,24 @@ function functions.assign_subgroup(item_name, item_subgroup, item_order)
 	end
 end
 
+-- Hide entity function
+function functions.hide_entity(entity_name, tech_name)
+	if data.raw.technology[tech_name] and data.raw.technology[tech_name].effects then
+		for i, effect in pairs(data.raw.technology[tech_name].effects) do
+			if effect.type == "unlock-recipe" and effect.recipe == entity_name then
+				table.remove(data.raw.technology[tech_name].effects,i)
+				data.raw.recipe[entity_name].hidden = true
+				data.raw.recipe[entity_name].enabled = false
+				data.raw.item[entity_name].flags = {"hidden"}
+			end
+		end
+	elseif data.raw.item[entity_name] then
+		data.raw.recipe[entity_name].hidden = true
+		data.raw.recipe[entity_name].enabled = false
+		data.raw.item[entity_name].flags = {"hidden"}
+	end
+end
+
 -- Remove entity function
 function functions.remove_entity(entity_name, tech_name, entity)
 	if data.raw.technology[tech_name] and data.raw.technology[tech_name].effects then
