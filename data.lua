@@ -20,5 +20,5 @@ data:extend({
 	}
 })
 
--- Create valves and removes duplicates
+-- Create valve set and remove flow control duplicates
 require("prototypes.flowbob-valves")
