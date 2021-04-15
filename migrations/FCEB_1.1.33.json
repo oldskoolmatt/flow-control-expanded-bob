@@ -1,0 +1,22 @@
+{
+  "item":
+  [
+    ["check-valve", "bob-valve"],
+    ["overflow-valve", "bob-overflow-valve"],
+	["underflow-valve", "flowbob-topup-valve"],
+    ["underflow-valve-2", "bob-topup-valve"],
+    ["valve-return", "bob-valve"],
+    ["valve-overflow", "bob-overflow-valve"],
+    ["valve-underflow", "bob-topup-valve"]
+  ],
+  "entity":
+  [
+    ["check-valve", "bob-valve"],
+    ["overflow-valve", "bob-overflow-valve"],
+	["underflow-valve", "flowbob-topup-valve"],
+    ["underflow-valve-2", "bob-topup-valve"],
+    ["valve-return", "bob-valve"],
+    ["valve-overflow", "bob-overflow-valve"],
+    ["valve-underflow", "bob-topup-valve"]
+  ]
+}

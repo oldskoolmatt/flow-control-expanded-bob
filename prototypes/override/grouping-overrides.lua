@@ -28,7 +28,8 @@ local materials =
 }
 
 -- Generate subgroups for bob pipes
-make_subgroup("valves",			"z-v-01") -- valves
+make_subgroup("valves-1",		"z-y-01") -- angel valves
+make_subgroup("valves-2",		"z-y-02") -- valves
 make_subgroup("pipes-row-1",	"z-z-01") -- copper
 make_subgroup("pipes-row-2",	"z-z-02") -- iron
 make_subgroup("pipes-row-3",	"z-z-03") -- stone
@@ -43,13 +44,13 @@ make_subgroup("pipes-row-11",	"z-z-11") -- nitinol
 make_subgroup("pipes-row-12",	"z-z-12") -- copper-tungsten
 
 -- Assign subgroup to valves
-assign_subgroup("valve-inspector",		"valves", "1") -- Angels petrochem
-assign_subgroup("bob-valve",			"valves", "2") -- Flow control
-assign_subgroup("bob-overflow-valve",	"valves", "3") -- Flow control
-assign_subgroup("bob-topup-valve",		"valves", "4") -- Flow control
-assign_subgroup("flowbob-topup-valve",	"valves", "5") -- Flow control
-assign_subgroup("valve-converter",		"valves", "6") -- Angels petrochem
-assign_subgroup("void-pump",			"valves", "7") -- Flow control
+assign_subgroup("valve-inspector",		"valves-1", "1") -- Angels petrochem
+assign_subgroup("valve-converter",		"valves-1", "2") -- Angels petrochem
+assign_subgroup("bob-valve",			"valves-2", "1") -- Flow control
+assign_subgroup("bob-overflow-valve",	"valves-2", "2") -- Flow control
+assign_subgroup("bob-topup-valve",		"valves-2", "3") -- Flow control
+assign_subgroup("flowbob-topup-valve",	"valves-2", "4") -- Flow control
+assign_subgroup("void-pump",			"valves-2", "5") -- Bobplates
 
 -- Assign subgroup to pipes
 assign_subgroup("pipe", 			"pipes-row-2", "1") -- Base

@@ -7,18 +7,7 @@
 ---- data.lua ----
 ------------------
 
-
--- Remove duplicate valves
-local remove_entity = require("utils.lib").remove_entity
-
-remove_entity("check-valve",		"fluid-handling", "storage-tank")
-remove_entity("overflow-valve",		"fluid-handling", "storage-tank")
-remove_entity("underflow-valve",	"fluid-handling", "storage-tank")
-
--- Create flow control top-valve equivalent
-
 -- Create flow control top-up valve equivalent
-
 local flowbob_topup_valve = util.merge{data.raw.item["bob-topup-valve"], -- Item
 {
 	name = "flowbob-topup-valve",
