@@ -81,12 +81,6 @@ table.insert(data.raw["recipe"]["flowbob-topup-valve"].ingredients, {type="item"
 
 -- If reskins-bobs is not present, or is not doing reskin work, assign sprites to valves
 if not (mods["reskins-bobs"] and (reskins.bobs and reskins.bobs.triggers.logistics.entities)) then
-
-
--- Assign skins to valves
-if not (reskins.bobs and reskins.bobs.triggers.logistics.entities) then
-	
-
 	local picture_path = "__flow-control-expanded-bob__/graphics/entity/valve/"
 
 	data.raw["storage-tank"]["bob-valve"].pictures.picture.sheet =

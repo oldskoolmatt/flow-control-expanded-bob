@@ -24,10 +24,10 @@ if mods ["angelspetrochem"] then
 
 	-- Remove recipes from obsolete techs
 	rem_tech("flowbob-topup-valve",		"fluid-handling")
-	
+
 	-- Remove duplicate valves
 	local entity = "storage-tank"
-	
+
 	remove_entity("valve-overflow",		"angels-fluid-control", entity)
 	remove_entity("valve-return",		"angels-fluid-control", entity)
 	remove_entity("valve-underflow",	"angels-fluid-control", entity)
