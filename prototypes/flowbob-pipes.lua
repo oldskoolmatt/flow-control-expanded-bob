@@ -153,8 +153,8 @@ end
 --------------- https://mods.factorio.com/user/Kirazy -----------------
 -----------------------------------------------------------------------
 
--- If reskins-bobs is not present, or is not doing reskin work, assign new icons to pipes
-if not (mods["reskins-bobs"] and (reskins.bobs and reskins.bobs.triggers.logistics.entities)) then
+-- If reskins-bobs isn't present, end code execution
+if not mods["reskins-bobs"] then
 	local assign_icon = require("utils.lib").assign_icon
 
 	-- Reskin the underground pipes
@@ -171,7 +171,7 @@ if not (mods["reskins-bobs"] and (reskins.bobs and reskins.bobs.triggers.logisti
 	assign_icon("pipe-straight", "storage-tank")
 	assign_icon("pipe-junction", "storage-tank")
 	assign_icon("pipe-elbow", "storage-tank")
-else
+elseif (reskins.bobs and reskins.bobs.triggers.logistics.entities) then
 	-- Initialise material mapping
 	local material_map =
 	{
