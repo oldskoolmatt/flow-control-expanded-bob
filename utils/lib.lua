@@ -108,7 +108,7 @@ end
 -- Assign icon function
 function functions.assign_icon(name, type)
 	local icon_path = "__flow-control-expanded-bob__/graphics/icon/base/"
-	if mods ["reskins-bobs"] then icon_path = "__flow-control-expanded-bob__/graphics/icon/reskin/" end
+	if mods["reskins-bobs"] then icon_path = "__flow-control-expanded-bob__/graphics/icon/reskin/" end
 
 	data.raw.item[name].icon =  icon_path..name..".png"
 	data.raw.item[name].icon_size = 64
