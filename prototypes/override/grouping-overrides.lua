@@ -128,6 +128,7 @@ assign_subgroup("water-miner-5",	"pumpjacks-2") -- Bobmining
 if not mods ["P.U.M.P.S."] then
 	assign_subgroup("offshore-pump",	"offshore-pumps") -- Base
 end
+assign_subgroup("offshore-pump-0",		"offshore-pumps") -- P-U-M-P-S
 assign_subgroup("offshore-pump-1",		"offshore-pumps") -- P-U-M-P-S
 assign_subgroup("offshore-pump-2",		"offshore-pumps") -- P-U-M-P-S
 assign_subgroup("offshore-pump-3",		"offshore-pumps") -- P-U-M-P-S
