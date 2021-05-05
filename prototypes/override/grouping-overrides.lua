@@ -81,19 +81,19 @@ make_subgroup("pumps",				"a-d-1") -- pumps
 make_subgroup("offshore-pumps",		"a-e-1") -- offshore pumps
 
 -- Storage tanks
-assign_subgroup("bob-small-inline-storage-tank",	"storage-tanks-1") -- Bobplates
-assign_subgroup("bob-small-storage-tank",			"storage-tanks-1") -- Bobplates
-assign_subgroup("storage-tank",						"storage-tanks-1") -- Boblogistics
-assign_subgroup("storage-tank-2",					"storage-tanks-1") -- Boblogistics
-assign_subgroup("storage-tank-3",					"storage-tanks-1") -- Boblogistics
-assign_subgroup("storage-tank-4",					"storage-tanks-1") -- Boblogistics
-assign_subgroup("bob-storage-tank-all-corners",		"storage-tanks-1") -- Boblogistics
-assign_subgroup("bob-storage-tank-all-corners-2",	"storage-tanks-1") -- Boblogistics
-assign_subgroup("bob-storage-tank-all-corners-3",	"storage-tanks-1") -- Boblogistics
-assign_subgroup("bob-storage-tank-all-corners-4",	"storage-tanks-1") -- Boblogistics
-assign_subgroup("angels-storage-tank-1",			"storage-tanks-2") -- Angels petrochem
-assign_subgroup("angels-storage-tank-2",			"storage-tanks-2") -- Angels petrochem
-assign_subgroup("angels-storage-tank-3",			"storage-tanks-2") -- Angels petrochem
+assign_subgroup("bob-small-inline-storage-tank",	"storage-tanks-1", "01") -- Bobplates
+assign_subgroup("bob-small-storage-tank",			"storage-tanks-1", "02") -- Bobplates
+assign_subgroup("storage-tank",						"storage-tanks-1", "03") -- Boblogistics
+assign_subgroup("bob-storage-tank-all-corners",		"storage-tanks-1", "04") -- Boblogistics
+assign_subgroup("storage-tank-2",					"storage-tanks-1", "05") -- Boblogistics
+assign_subgroup("bob-storage-tank-all-corners-2",	"storage-tanks-1", "06") -- Boblogistics
+assign_subgroup("storage-tank-3",					"storage-tanks-1", "07") -- Boblogistics
+assign_subgroup("bob-storage-tank-all-corners-3",	"storage-tanks-1", "08") -- Boblogistics
+assign_subgroup("storage-tank-4",					"storage-tanks-1", "09") -- Boblogistics
+assign_subgroup("bob-storage-tank-all-corners-4",	"storage-tanks-1", "10") -- Boblogistics
+assign_subgroup("angels-storage-tank-1",			"storage-tanks-2", "01") -- Angels petrochem
+assign_subgroup("angels-storage-tank-2",			"storage-tanks-2", "02") -- Angels petrochem
+assign_subgroup("angels-storage-tank-3",			"storage-tanks-2", "03") -- Angels petrochem
 
 -- Pumps
 assign_subgroup("pump",			"pumps") -- Base
@@ -125,11 +125,11 @@ assign_subgroup("water-miner-4",	"pumpjacks-2") -- Bobmining
 assign_subgroup("water-miner-5",	"pumpjacks-2") -- Bobmining
 
 -- Offshore pumps
-if not mods ["P.U.M.P.S."] then
-	assign_subgroup("offshore-pump",	"offshore-pumps") -- Base
-end
 assign_subgroup("offshore-pump-0",		"offshore-pumps") -- P-U-M-P-S
 assign_subgroup("offshore-pump-1",		"offshore-pumps") -- P-U-M-P-S
 assign_subgroup("offshore-pump-2",		"offshore-pumps") -- P-U-M-P-S
 assign_subgroup("offshore-pump-3",		"offshore-pumps") -- P-U-M-P-S
 assign_subgroup("offshore-pump-4",		"offshore-pumps") -- P-U-M-P-S
+if not mods ["P-U-M-P-S"] then
+	assign_subgroup("offshore-pump",	"offshore-pumps") -- Base
+end
