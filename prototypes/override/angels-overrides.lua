@@ -128,6 +128,8 @@ local valves =
 	["flowbob-topup-valve"] = {tint = util.color("fcfcfc")},
 }
 
+local override_path = "__flow-control-expanded-bob__/graphics/entity/valve/angels"
+
 local function cardinal_pictures(x, tint)
 	local x_lr = 64*x
 	local x_hr = 128*x
@@ -138,14 +140,14 @@ local function cardinal_pictures(x, tint)
 		{
 			-- Base
 			{
-				filename = reskins.angels.directory.."/graphics/entity/petrochem/valve/valve-base.png",
+				filename = override_path.."/valve-base.png",
 				priority = "extra-high",
 				x = x_lr,
 				width = 64,
 				height = 64,
 				hr_version =
 				{
-					filename = reskins.angels.directory.."/graphics/entity/petrochem/valve/hr-valve-base.png",
+					filename = override_path.."/hr-valve-base.png",
 					priority = "extra-high",
 					x = x_hr,
 					width = 128,
@@ -155,7 +157,7 @@ local function cardinal_pictures(x, tint)
 			},
 			-- Mask
 			{
-				filename = reskins.angels.directory.."/graphics/entity/petrochem/valve/valve-mask.png",
+				filename = override_path.."/valve-mask.png",
 				priority = "extra-high",
 				x = x_lr,
 				width = 64,
@@ -163,7 +165,7 @@ local function cardinal_pictures(x, tint)
 				tint = tint,
 				hr_version =
 				{
-					filename = reskins.angels.directory.."/graphics/entity/petrochem/valve/hr-valve-mask.png",
+					filename = override_path.."/hr-valve-mask.png",
 					priority = "extra-high",
 					x = x_hr,
 					width = 128,

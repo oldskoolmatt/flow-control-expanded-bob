@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.1.35
+Date: 05.07. 2021
+  Info:
+    - Added latest "Offshore P.U.M.P.S" additions to fluid network tab
+  Bugfixes:
+    - Fixed valve sprites for angel reskins, fluid was flowing in the opposite direction of the arrow
+---------------------------------------------------------------------------------------------------
 Version: 1.1.34
 Date: 15.04. 2021
   Info:

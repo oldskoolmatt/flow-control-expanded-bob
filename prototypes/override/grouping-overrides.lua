@@ -130,6 +130,7 @@ assign_subgroup("offshore-pump-1",		"offshore-pumps") -- P-U-M-P-S
 assign_subgroup("offshore-pump-2",		"offshore-pumps") -- P-U-M-P-S
 assign_subgroup("offshore-pump-3",		"offshore-pumps") -- P-U-M-P-S
 assign_subgroup("offshore-pump-4",		"offshore-pumps") -- P-U-M-P-S
+assign_subgroup("water-pumpjack",		"offshore-pumps") -- P-U-M-P-S
 if not mods ["P-U-M-P-S"] then
 	assign_subgroup("offshore-pump",	"offshore-pumps") -- Base
 end
