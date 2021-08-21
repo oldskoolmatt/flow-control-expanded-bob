@@ -7,6 +7,3 @@ require("prototypes.flowbob-pipes")
 
 -- Conform pipe materials to those added by reskins-angels
 require("prototypes.override.angels-overrides")
-
--- Apply overrides
-require ("prototypes.override.overrides")

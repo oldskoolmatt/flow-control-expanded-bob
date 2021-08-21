@@ -35,5 +35,4 @@ hide_entity("underflow-valve",	"fluid-handling")
 -- Apply overrides
 require("prototypes.override.angels-final-overrides")
 require("prototypes.override.grouping-overrides")
-require("prototypes.override.final-overrides")
 

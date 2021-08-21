@@ -75,6 +75,7 @@ make_subgroup("storage-tanks-1",	"a-a-1") -- storage tanks
 make_subgroup("storage-tanks-2",	"a-a-2") -- storage tanks
 make_subgroup("pumpjacks-1",		"a-b-1") -- oil pumpjacks
 make_subgroup("pumpjacks-2",		"a-b-2") -- water pumpjacks
+make_subgroup("pumpjacks-3",		"a-b-3") -- ground water pumpjacks
 make_subgroup("compressors-1",		"a-c-1") -- compressors
 make_subgroup("compressors-2",		"a-c-2") -- barreling pumps
 make_subgroup("pumps",				"a-d-1") -- pumps
@@ -94,6 +95,7 @@ assign_subgroup("bob-storage-tank-all-corners-4",	"storage-tanks-1", "10") -- Bo
 assign_subgroup("angels-storage-tank-1",			"storage-tanks-2", "01") -- Angels petrochem
 assign_subgroup("angels-storage-tank-2",			"storage-tanks-2", "02") -- Angels petrochem
 assign_subgroup("angels-storage-tank-3",			"storage-tanks-2", "03") -- Angels petrochem
+assign_subgroup("angels-pressure-tank-1",			"storage-tanks-2", "04") -- Angels addons - storage options
 
 -- Pumps
 assign_subgroup("pump",			"pumps") -- Base
@@ -113,16 +115,21 @@ assign_subgroup("water-pump-4",		"compressors-2") -- Bobplates
 assign_subgroup("barreling-pump",	"compressors-2") -- Angels refining
 
 -- Pumpjacks
-assign_subgroup("pumpjack",			"pumpjacks-1") -- Base
-assign_subgroup("bob-pumpjack-1",	"pumpjacks-1") -- Bobmining
-assign_subgroup("bob-pumpjack-2",	"pumpjacks-1") -- Bobmining
-assign_subgroup("bob-pumpjack-3",	"pumpjacks-1") -- Bobmining
-assign_subgroup("bob-pumpjack-4",	"pumpjacks-1") -- Bobmining
-assign_subgroup("water-miner-1",	"pumpjacks-2") -- Bobmining
-assign_subgroup("water-miner-2",	"pumpjacks-2") -- Bobmining
-assign_subgroup("water-miner-3",	"pumpjacks-2") -- Bobmining
-assign_subgroup("water-miner-4",	"pumpjacks-2") -- Bobmining
-assign_subgroup("water-miner-5",	"pumpjacks-2") -- Bobmining
+assign_subgroup("pumpjack",				"pumpjacks-1") -- Base
+assign_subgroup("bob-pumpjack-1",		"pumpjacks-1") -- Bobmining
+assign_subgroup("bob-pumpjack-2",		"pumpjacks-1") -- Bobmining
+assign_subgroup("bob-pumpjack-3",		"pumpjacks-1") -- Bobmining
+assign_subgroup("bob-pumpjack-4",		"pumpjacks-1") -- Bobmining
+assign_subgroup("water-miner-1",		"pumpjacks-2") -- Bobmining
+assign_subgroup("water-miner-2",		"pumpjacks-2") -- Bobmining
+assign_subgroup("water-miner-3",		"pumpjacks-2") -- Bobmining
+assign_subgroup("water-miner-4",		"pumpjacks-2") -- Bobmining
+assign_subgroup("water-miner-5",		"pumpjacks-2") -- Bobmining
+assign_subgroup("water-pumpjack-1",		"pumpjacks-3") -- P-U-M-P-S
+assign_subgroup("water-pumpjack-2",		"pumpjacks-3") -- P-U-M-P-S
+assign_subgroup("water-pumpjack-3",		"pumpjacks-3") -- P-U-M-P-S
+assign_subgroup("water-pumpjack-4",		"pumpjacks-3") -- P-U-M-P-S
+assign_subgroup("water-pumpjack-5",		"pumpjacks-3") -- P-U-M-P-S
 
 -- Offshore pumps
 assign_subgroup("offshore-pump-0",		"offshore-pumps") -- P-U-M-P-S
@@ -130,7 +137,7 @@ assign_subgroup("offshore-pump-1",		"offshore-pumps") -- P-U-M-P-S
 assign_subgroup("offshore-pump-2",		"offshore-pumps") -- P-U-M-P-S
 assign_subgroup("offshore-pump-3",		"offshore-pumps") -- P-U-M-P-S
 assign_subgroup("offshore-pump-4",		"offshore-pumps") -- P-U-M-P-S
-assign_subgroup("water-pumpjack",		"offshore-pumps") -- P-U-M-P-S
 if not mods ["P-U-M-P-S"] then
 	assign_subgroup("offshore-pump",	"offshore-pumps") -- Base
 end
+
