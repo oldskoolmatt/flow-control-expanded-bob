@@ -1,54 +1,20 @@
---------------------------
----- data-updates.lua ----
---------------------------
+-----------------------------------------------------------------------
+------ INFINITE THANKS TO KIRAZY FOR THE HELP AND DOCUMENTATION  ------
+--------------- https://mods.factorio.com/user/Kirazy -----------------
+-----------------------------------------------------------------------
 
--- This function returns the full pipe_pictures definition for a given material, sourced from the appropriate mod
-local function get_pipe_pictures(material)
-	if mods["reskins-bobs"] then
-		return reskins.lib.pipe_pictures({mod = "bobs", group = "logistics", material = material})
-	else
-		return bob_pipepictures(material)
-	end
-end
+------------------
+---- data.lua ----
+------------------
 
--- This function returns the full pipe_covers definition for a given material, sourced from the appropriate mod
-local function get_pipe_covers(material)
-	if mods["reskins-bobs"] then
-		return reskins.lib.pipe_covers({mod = "bobs", group = "logistics", material = material})
-	else
-		return bob_pipecoverspictures(material)
-	end
-end
 
--- This function creates the appropripate unique pipe_type item, recipe, and entity definitions
-local function create_extensible_prototype_definitions(pipe_type, material)
-	local flow_pipe_name = "pipe-"..material.."-"..pipe_type
-	local health = data.raw.pipe[material.."-pipe"] and data.raw.pipe[material.."-pipe"].max_health or 100 -- 100 is fallback, but in theory is never used
-	return
-	{
-		item = util.merge{data.raw.item["pipe-"..pipe_type],
-		{
-			name = flow_pipe_name,
-			place_result = flow_pipe_name
-		}
-	},
+-- Fetch functions
+local assign_icon = require("utils.lib").assign_icon
+local get_pipe_pictures = require("utils.lib").get_pipe_pictures
+local get_pipe_covers = require("utils.lib").get_pipe_covers
+local create_extensible_prototype_definitions = require("utils.lib").create_extensible_prototype_definitions
 
-		recipe = util.merge{data.raw.recipe["pipe-"..pipe_type],
-		{
-			name = flow_pipe_name,
-			result = flow_pipe_name
-		}
-	},
-
-		entity = util.merge{data.raw["storage-tank"]["pipe-"..pipe_type],
-		{
-			name = flow_pipe_name,
-			minable = {result = material.."-pipe"},
-			max_health = health
-		}
-	}
-}
-end
+-----------------------------------------------------------------------
 
 -- Begin construction
 local materials =
@@ -73,7 +39,20 @@ local pipes =
 	"elbow",
 }
 
--- For each material
+-- Make vanilla and bob logistics pipe icons
+assign_icon("pipe", "pipe")
+assign_icon("pipe-to-ground", "pipe-to-ground")
+assign_icon("pipe-straight", "storage-tank")
+assign_icon("pipe-junction", "storage-tank")
+assign_icon("pipe-elbow", "storage-tank")
+for material, _ in pairs(materials) do
+	if data.raw.item[material.."-pipe"] then
+		assign_icon(material.."-pipe", "pipe")
+		assign_icon(material.."-pipe-to-ground", "pipe-to-ground")
+	end
+end
+
+-- Build straight, T and elbow pipes for each material
 for material, parameters in pairs(materials) do
 	-- Check to see if the pipe for the given material exists, if it does not, skip prototype creation
 	if not data.raw.item[material.."-pipe"] then goto continue end
@@ -147,72 +126,4 @@ for material, parameters in pairs(materials) do
 
 	-- Skip entity creation
 	::continue::
-end
------------------------------------------------------------------------
------- INFINITE THANKS TO KIRAZY FOR THE HELP AND DOCUMENTATION  ------
---------------- https://mods.factorio.com/user/Kirazy -----------------
------------------------------------------------------------------------
-
--- If reskins-bobs is not present, or is not doing reskin work, reskin pipe icons
-if not (mods["reskins-bobs"] and (reskins.bobs and reskins.bobs.triggers.logistics.entities)) then
-	local assign_icon = require("utils.lib").assign_icon
-
-	-- Reskin the underground pipes
-	for material, _ in pairs(materials) do
-		if data.raw.item[material.."-pipe"] then
-			assign_icon(material.."-pipe", "pipe")
-			assign_icon(material.."-pipe-to-ground", "pipe-to-ground")
-		end
-	end
-
-	-- Update the iron pipe and related entities
-	assign_icon("pipe", "pipe")
-	assign_icon("pipe-to-ground", "pipe-to-ground")
-	assign_icon("pipe-straight", "storage-tank")
-	assign_icon("pipe-junction", "storage-tank")
-	assign_icon("pipe-elbow", "storage-tank")
-else
-	-- Initialise material mapping
-	local material_map =
-	{
-		["iron"] = 1,
-		["copper"] = 1,
-		["stone"] = 1,
-		["bronze"] = 2,
-		["steel"] = 2,
-		["plastic"] = 3,
-		["brass"] = 3,
-		["titanium"] = 4,
-		["ceramic"] = 4,
-		["tungsten"] = 4,
-		["nitinol"] = 5,
-		["copper-tungsten"] = 5,
-	}
-
-	-- Constructor function for icon inputs
-	local function set_icon_inputs(material, variant)
-		return
-		{
-			icon = "__flow-control-expanded-bob__/graphics/icon/reskin/pipe-"..material.."-"..variant..".png",
-			icon_size = 64,
-			make_icon_pictures = true,
-			tier_labels = reskins.lib.setting("reskins-bobs-do-pipe-tier-labeling"),
-			type = "storage-tank",
-		}
-	end
-
-	-- Set reskins-style icons
-	for material, tier in pairs(material_map) do
-		for _, pipe in pairs(pipes) do
-			-- Setup inputs
-			local icon_inputs = set_icon_inputs(material, pipe)
-
-			-- Append tier labels (the function will do nothing if tier_labels is false)
-			reskins.lib.append_tier_labels(tier, icon_inputs)
-
-			-- Assign tiering and icons to targeted pipes
-			local name = (material == "iron") and "pipe-"..pipe or "pipe-"..material.."-"..pipe
-			reskins.lib.assign_icons(name, icon_inputs)
-		end
-	end
 end

@@ -1,0 +1,38 @@
+{
+  "item":
+  [
+	["bob-valve", "flowbob-check-valve"],
+	["bob-overflow-valve", "flowbob-overflow-valve"],
+	["bob-topup-valve", "flowbob-topup-valve-1"],
+	["valve-return", "flowbob-check-valve"],
+	["valve-overflow", "flowbob-overflow-valve"],
+	["valve-underflow", "flowbob-topup-valve-2"],
+	["check-valve", "flowbob-check-valve"],
+	["overflow-valve", "flowbob-overflow-valve"],
+	["underflow-valve", "flowbob-topup-valve-2"]
+  ],
+  "recipe":
+  [
+	["bob-valve", "flowbob-check-valve"],
+	["bob-overflow-valve", "flowbob-overflow-valve"],
+	["bob-topup-valve", "flowbob-topup-valve-1"],
+	["valve-return", "flowbob-check-valve"],
+	["valve-overflow", "flowbob-overflow-valve"],
+	["valve-underflow", "flowbob-topup-valve-2"],
+	["check-valve", "flowbob-check-valve"],
+	["overflow-valve", "flowbob-overflow-valve"],
+	["underflow-valve", "flowbob-topup-valve-2"]
+  ],
+  "entity":
+  [
+	["bob-valve", "flowbob-check-valve"],
+	["bob-overflow-valve", "flowbob-overflow-valve"],
+	["bob-topup-valve", "flowbob-topup-valve-1"],
+	["valve-return", "flowbob-check-valve"],
+	["valve-overflow", "flowbob-overflow-valve"],
+	["valve-underflow", "flowbob-topup-valve-2"],
+	["check-valve", "flowbob-check-valve"],
+	["overflow-valve", "flowbob-overflow-valve"],
+	["underflow-valve", "flowbob-topup-valve-2"]
+  ]
+}

@@ -7,197 +7,149 @@
 ---- data.lua ----
 ------------------
 
--- Create flow control top-up valve equivalent
-local flowbob_topup_valve = util.merge{data.raw.item["bob-topup-valve"], -- Item
+-- Setup valve list
+local valves =
 {
-	name = "flowbob-topup-valve",
+	"flowbob-check-valve",
+	"flowbob-overflow-valve",
+	"flowbob-topup-valve-1",
+	"flowbob-topup-valve-2",
+}
+
+-- Item
+local valve_check =
+{
+	type = "item",
+	name = "flowbob-check-valve",
+	icon = "__flow-control-expanded-bob__/graphics/icon/valve/flowbob-check-valve.png",
 	icon_size = 32,
-	place_result = "flowbob-topup-valve"
-}}
-data:extend({flowbob_topup_valve})
-
-local flowbob_topup_valve = util.merge{data.raw.recipe["bob-topup-valve"], -- Recipe
-{
-	name = "flowbob-topup-valve",
-	result = "flowbob-topup-valve"
-}}
-data:extend({flowbob_topup_valve})
-
-local flowbob_topup_valve = util.merge{data.raw["storage-tank"]["bob-topup-valve"], -- Entity
-{
-	name = "flowbob-topup-valve",
-	minable = {result = "flowbob-topup-valve"}
-}}
-flowbob_topup_valve.fluid_box.height = 0.8
-data:extend({flowbob_topup_valve})
-
-if data.raw.technology["fluid-handling"] then -- Tech
-	table.insert(data.raw["technology"]["fluid-handling"].effects, {type = "unlock-recipe", recipe = "flowbob-topup-valve"})
+	place_result = "flowbob-check-valve",
+	stack_size = 100
+}	data:extend({valve_check})
+for _, valve_name in pairs(valves) do
+	if valve_name ~= "flowbob-check-valve" then
+		local valve = table.deepcopy(data.raw.item["flowbob-check-valve"])
+		valve.name = valve_name
+		valve.icon = "__flow-control-expanded-bob__/graphics/icon/valve/"..valve_name..".png"
+		valve.place_result = valve_name
+		data:extend({valve})
+	end
 end
 
--- Add recipe ingredients
-table.insert(data.raw["recipe"]["bob-valve"].ingredients, {type="item", name="iron-gear-wheel", amount=1})
-table.insert(data.raw["recipe"]["bob-overflow-valve"].ingredients, {type="item", name="iron-gear-wheel", amount=1})
-table.insert(data.raw["recipe"]["bob-overflow-valve"].ingredients, {type="item", name="electronic-circuit", amount=1})
-table.insert(data.raw["recipe"]["bob-topup-valve"].ingredients, {type="item", name="electronic-circuit", amount=1})
-table.insert(data.raw["recipe"]["bob-topup-valve"].ingredients, {type="item", name="iron-gear-wheel", amount=1})
-table.insert(data.raw["recipe"]["flowbob-topup-valve"].ingredients, {type="item", name="electronic-circuit", amount=1})
-table.insert(data.raw["recipe"]["flowbob-topup-valve"].ingredients, {type="item", name="iron-gear-wheel", amount=1})
-
--- Assign icons to valves
-local icon_path = "__Flow Control__/graphics/icon/"
-
-data.raw.item["bob-valve"].icon = icon_path .. "check-valve.png"
-data.raw["storage-tank"]["bob-valve"].icon = icon_path .. "check-valve.png"
-data.raw.item["bob-overflow-valve"].icon = icon_path .. "overflow-valve.png"
-data.raw["storage-tank"]["bob-overflow-valve"].icon = icon_path .. "overflow-valve.png"
-data.raw.item["bob-topup-valve"].icon = icon_path .. "underflow-valve.png"
-data.raw["storage-tank"]["bob-topup-valve"].icon = icon_path .. "underflow-valve.png"
-
-local icon_path = "__flow-control-expanded-bob__/graphics/icon/valve/"
-data.raw.item["flowbob-topup-valve"].icon = icon_path .. "flowbob-topup-valve.png"
-data.raw["storage-tank"]["flowbob-topup-valve"].icon = icon_path .. "flowbob-topup-valve.png"
-
-
--- Add recipe ingredients
-table.insert(data.raw["recipe"]["bob-valve"].ingredients, {type="item", name="iron-gear-wheel", amount=1})
-table.insert(data.raw["recipe"]["bob-overflow-valve"].ingredients, {type="item", name="iron-gear-wheel", amount=1})
-table.insert(data.raw["recipe"]["bob-overflow-valve"].ingredients, {type="item", name="electronic-circuit", amount=1})
-table.insert(data.raw["recipe"]["bob-topup-valve"].ingredients, {type="item", name="electronic-circuit", amount=1})
-table.insert(data.raw["recipe"]["bob-topup-valve"].ingredients, {type="item", name="iron-gear-wheel", amount=1})
-table.insert(data.raw["recipe"]["flowbob-topup-valve"].ingredients, {type="item", name="electronic-circuit", amount=1})
-table.insert(data.raw["recipe"]["flowbob-topup-valve"].ingredients, {type="item", name="iron-gear-wheel", amount=1})
-
--- If reskins-bobs is not present, or is not doing reskin work, assign sprites to valves
-if not (mods["reskins-bobs"] and (reskins.bobs and reskins.bobs.triggers.logistics.entities)) then
-	local picture_path = "__flow-control-expanded-bob__/graphics/entity/valve/"
-
-	data.raw["storage-tank"]["bob-valve"].pictures.picture.sheet =
+-- Recipe
+local valve_check =
+{
+	type = "recipe",
+	name = "flowbob-check-valve",
+	energy_required = 2,
+	ingredients =
 	{
-		filename = picture_path .. "bob-valve.png",
-		priority = "extra-high",
-		frames = 4,
-		width = 58,
-		height = 55,
-		shift = {0.28125, -0.078125}
-	}
+		{"iron-plate", 1},
+		{"pipe", 1},
+		{"iron-gear-wheel", 1}
+	},
+    result= "flowbob-check-valve"
+}	data:extend({valve_check})
+for _, valve_name in pairs(valves) do
+	if valve_name ~= "flowbob-check-valve" then
+		local valve = table.deepcopy(data.raw.recipe["flowbob-check-valve"])
+		valve.name = valve_name
+		valve.result = valve_name
+		data:extend({valve})
 
-	data.raw["storage-tank"]["bob-overflow-valve"].pictures.picture.sheet =
+		table.insert(data.raw.recipe[valve_name].ingredients, {"electronic-circuit", 1})
+	end
+end
+
+-- Entity
+local valve_check =
+{
+	type = "storage-tank",
+	name = "flowbob-check-valve",
+	icon = "__flow-control-expanded-bob__/graphics/icon/valve/flowbob-check-valve.png",
+	icon_size = 32,
+	flags = {"placeable-neutral", "player-creation"},
+	minable = {hardness = 0.2, mining_time = 0.1, result = "flowbob-check-valve"},
+	max_health = 50,
+	two_direction_only = false,
+	fast_replaceable_group = "pipe",
+	corpse = "small-remnants",
+	resistances = {{type = "fire", percent = 80}},
+	collision_box = {{-0.29, -0.29}, {0.29, 0.2}},
+	selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
+	fluid_box =
 	{
-		filename = picture_path .. "bob-overflow-valve.png",
-		priority = "extra-high",
-		frames = 4,
-		width = 58,
-		height = 55,
-		shift = {0.28125, -0.078125}
-	}
-
-	data.raw["storage-tank"]["bob-topup-valve"].pictures.picture.sheet =
+		base_area = 1,
+		pipe_covers = pipecoverspictures(),
+		pipe_connections = {{position={0, -1}, type="output"}, {position={0, 1}, type="input"}}
+	},
+	vehicle_impact_sound = {filename = "__base__/sound/car-metal-impact.ogg", volume = 0.65},
+	pictures =
 	{
-		filename = picture_path .. "bob-topup-valve.png",
-		priority = "extra-high",
-		frames = 4,
-		width = 58,
-		height = 55,
-		shift = {0.28125, -0.078125}
-	}
-
-	data.raw["storage-tank"]["flowbob-topup-valve"].pictures.picture.sheet =
-	{
-		filename = picture_path .. "flowbob-topup-valve.png",
-		priority = "extra-high",
-		frames = 4,
-		width = 58,
-		height = 55,
-		shift = {0.28125, -0.078125}
-	}
-	return
-else
-	local inputs =
-	{
-		type = "storage-tank",
-		icon_name = "valve",
-		base_entity = "pipe",
-		mod = "bobs",
-		group = "logistics",
-		particles = {["small"] = 2},
-		icon_layers = 2,
-		make_remnants = false,
-	}
-
-	local tint_map =
-	{
-		["flowbob-topup-valve"] = util.color("fcfcfc"),
-	}
-
-	local function cardinal_pictures(x, tint)
-		local x_lr = 64*x
-		local x_hr = 128*x
-
-		return
+		picture =
 		{
-			layers =
+			sheet =
 			{
-				-- Base
-				{
-					filename = reskins.bobs.directory.."/graphics/entity/logistics/valve/valve-base.png",
-					priority = "extra-high",
-					x = x_lr,
-					width = 64,
-					height = 64,
-					hr_version =
-					{
-						filename = reskins.bobs.directory.."/graphics/entity/logistics/valve/hr-valve-base.png",
-						priority = "extra-high",
-						x = x_hr,
-						width = 128,
-						height = 128,
-						scale = 0.5
-					}
-				},
-				-- Mask
-				{
-					filename = reskins.bobs.directory.."/graphics/entity/logistics/valve/valve-mask.png",
-					priority = "extra-high",
-					x = x_lr,
-					width = 64,
-					height = 64,
-					tint = tint,
-					hr_version =
-					{
-						filename = reskins.bobs.directory.."/graphics/entity/logistics/valve/hr-valve-mask.png",
-						priority = "extra-high",
-						x = x_hr,
-						width = 128,
-						height = 128,
-						tint = tint,
-						scale = 0.5
-					}
-				}
+				filename = "__flow-control-expanded-bob__/graphics/entity/valve/flowbob-check-valve.png",
+				priority = "extra-high",
+				frames = 4,
+				width = 58,
+				height = 55,
+				shift = {0.28125, -0.078125}
 			}
+		},
+		fluid_background =
+		{
+			filename = "__core__/graphics/empty.png",
+			width = 1,
+			height = 1
+		},
+		window_background =
+		{
+			filename = "__core__/graphics/empty.png",
+			width = 1,
+			height = 1
+		},
+		flow_sprite =
+		{
+			filename = "__core__/graphics/empty.png",
+			width = 1,
+			height = 1
+		},
+		gas_flow =
+		{
+			filename = "__base__/graphics/entity/pipe/steam.png",
+			width = 1,
+			height = 1,
+			frame_count = 1
 		}
+	},
+	window_bounding_box = {{-0.125, 0.6875}, {0.1875, 1.1875}},
+	flow_length_in_ticks = 360,
+	circuit_wire_connection_points = circuit_connector_definitions["bob-valve"].points,
+	circuit_connector_sprites = circuit_connector_definitions["bob-valve"].sprites,
+	circuit_wire_max_distance = 7.5,
+}	data:extend({valve_check})
+for _, valve_name in pairs(valves) do
+	if valve_name ~= "flowbob-check-valve" then
+		local valve = table.deepcopy(data.raw["storage-tank"]["flowbob-check-valve"])
+		valve.name = valve_name
+		valve.icon = "__flow-control-expanded-bob__/graphics/icon/valve/"..valve_name..".png"
+		valve.minable = {hardness = 0.2, mining_time = 0.1, result = valve_name}
+		valve.pictures.picture.sheet.filename = "__flow-control-expanded-bob__/graphics/entity/valve/"..valve_name..".png"
+		if valve_name == "flowbob-overflow-valve" then
+			valve.fluid_box.base_level = 0.8
+			valve.fluid_box.height = 0.2
+		elseif valve_name == "flowbob-topup-valve-1" then
+			valve.fluid_box.height = 0.2
+		elseif valve_name == "flowbob-topup-valve-2" then
+			valve.fluid_box.height = 0.8
+		end
+		data:extend({valve})
 	end
+end
 
-	-- Reskin entities, create and assign extra details
-	for name, tint in pairs(tint_map) do
-		-- Fetch entity
-		local entity = data.raw[inputs.type][name]
-
-		-- Check if entity exists, if not, skip this iteration
-		if not entity then goto continue end
-
-		-- Assign tint
-		inputs.tint = tint
-
-		reskins.lib.setup_standard_entity(name, 0, inputs)
-
-		-- Reskin entities
-		entity.pictures.picture.north = cardinal_pictures(0, inputs.tint)
-		entity.pictures.picture.east = cardinal_pictures(1, inputs.tint)
-		entity.pictures.picture.south = cardinal_pictures(2, inputs.tint)
-		entity.pictures.picture.west = cardinal_pictures(3, inputs.tint)
-
-		-- Label to skip to next iteration
-		::continue::
-	end
+-- Tech
+for _, valve_name in pairs(valves) do -- tech
+	table.insert(data.raw.technology["fluid-handling"].effects, {type = "unlock-recipe", recipe = valve_name})
 end

@@ -3,23 +3,21 @@
 --------------- https://mods.factorio.com/user/Kirazy -----------------
 -----------------------------------------------------------------------
 
------------------------------------------------------------------------
-------- here is where all the fixed references and functions are stored
------------------------------------------------------------------------
-
 -- Setup function host
 local functions = {}
 
--- Subgroup generation function
+-- Subgroup generation
 function functions.make_subgroup(name, order)
-	local subgroup = util.merge{data.raw["item-subgroup"]["fluid-network-placeholder"], {
+	local item_subgroup =
+	{
+		group = "fluid-network",
+		type = "item-subgroup",
 		name = name,
 		order = order,
-	}}
-	data:extend({subgroup})
+	}	data:extend({item_subgroup})
 end
 
--- Subgroup entity assignement function
+-- Subgroup entity assignement
 function functions.assign_subgroup(item_name, item_subgroup, item_order)
 	if data.raw.item[item_name] then
 		data.raw.item[item_name].subgroup = item_subgroup
@@ -35,58 +33,88 @@ function functions.assign_subgroup(item_name, item_subgroup, item_order)
 	end
 end
 
--- Hide entity function
-function functions.hide_entity(entity_name, tech_name)
-	if data.raw.technology[tech_name] and data.raw.technology[tech_name].effects then
-		for i, effect in pairs(data.raw.technology[tech_name].effects) do
-			if effect.type == "unlock-recipe" and effect.recipe == entity_name then
-				table.remove(data.raw.technology[tech_name].effects,i)
-				data.raw.recipe[entity_name].hidden = true
-				data.raw.recipe[entity_name].enabled = false
-				data.raw.item[entity_name].flags = {"hidden"}
-			end
-		end
-	elseif data.raw.item[entity_name] then
-		data.raw.recipe[entity_name].hidden = true
-		data.raw.recipe[entity_name].enabled = false
-		data.raw.item[entity_name].flags = {"hidden"}
+-- Sets up the correct icons and paths for vanilla and logistics pipes
+function functions.assign_icon(name, type)
+	local icon_path = "__flow-control-expanded-bob__/graphics/icon/base/"
+
+	data.raw.item[name].icon =  icon_path..name..".png"
+	data.raw.item[name].icon_size = 64
+	data.raw[type][name].icon =  icon_path..name..".png"
+	data.raw[type][name].icon_size = 64
+end
+
+-- Returns the full pipe_pictures definition for a given material, sourced from the appropriate mod
+function functions.get_pipe_pictures(material)
+	if mods["reskins-bobs"] then
+		return reskins.lib.pipe_pictures({mod = "bobs", group = "logistics", material = material})
+	else
+		return bob_pipepictures(material)
 	end
 end
 
--- Remove entity function
-function functions.remove_entity(entity_name, tech_name, entity)
-	if data.raw.technology[tech_name] and data.raw.technology[tech_name].effects then
-		for i, effect in pairs(data.raw.technology[tech_name].effects) do
-			if effect.type == "unlock-recipe" and effect.recipe == entity_name then
-				table.remove(data.raw.technology[tech_name].effects,i)
-				data.raw.recipe[entity_name] = nil
-				data.raw.item[entity_name] = nil
-				data.raw[entity][entity_name] = nil
-			end
-		end
-	elseif data.raw.item[entity_name] then
-		data.raw.recipe[entity_name] = nil
-		data.raw.item[entity_name] = nil
-		data.raw[entity][entity_name] = nil
+-- Returns the full pipe_covers definition for a given material, sourced from the appropriate mod
+function functions.get_pipe_covers(material)
+	if mods["reskins-bobs"] then
+		return reskins.lib.pipe_covers({mod = "bobs", group = "logistics", material = material})
+	else
+		return bob_pipecoverspictures(material)
 	end
 end
 
--- Remove hidden flag function
-function functions.remove_hidden_flag(item_name)
-	if data.raw.item[item_name] and data.raw.item[item_name].flags then
-		for i, flag in pairs(data.raw.item[item_name].flags) do
-			if flag == "hidden" then
-				table.remove(data.raw.item[item_name].flags, i)
-			end
-		end
-	end
-	if data.raw.recipe[item_name] then
-		data.raw.recipe[item_name].hidden = false
-	end
+-- Creates the appropripate unique pipe_type item, recipe, and entity definitions
+function functions.create_extensible_prototype_definitions(pipe_type, material)
+	local flow_pipe_name = "pipe-"..material.."-"..pipe_type
+	local health = data.raw.pipe[material.."-pipe"] and data.raw.pipe[material.."-pipe"].max_health or 100 -- 100 is fallback, but in theory is never used
+	return
+	{
+		item = util.merge{data.raw.item["pipe-"..pipe_type],
+		{
+			name = flow_pipe_name,
+			place_result = flow_pipe_name
+		}
+	},
+
+		recipe = util.merge{data.raw.recipe["pipe-"..pipe_type],
+		{
+			name = flow_pipe_name,
+			result = flow_pipe_name
+		}
+	},
+
+		entity = util.merge{data.raw["storage-tank"]["pipe-"..pipe_type],
+		{
+			name = flow_pipe_name,
+			minable = {result = material.."-pipe"},
+			max_health = health
+		}
+	}
+}
 end
 
--- Ingredient swap function [DOES NOT CHECK FOR DUPLICATES]
-function functions.replace_recipe_ingredient(old_item, new_item)
+-- Nukes entities from the game, because... https://www.youtube.com/watch?v=X0fp-kq-0Fw
+function functions.nuke_entity(entity_name, entity)
+	-- Scans all techs and removes recipe unlock references
+	for _, technology in pairs(data.raw.technology) do
+
+		local effects = technology.effects
+
+		if effects then
+			for i, effect in pairs(effects) do
+				if effect.type == "unlock-recipe" and effect.recipe == entity_name then
+					table.remove(technology.effects, i)
+				end
+            end
+        end
+    end
+
+	-- Nukes the entity
+	data.raw.recipe[entity_name] = nil
+	data.raw.item[entity_name] = nil
+	data.raw["storage-tank"][entity_name] = nil
+end
+
+-- Scans all recipes and replaces ingredient [DOES NOT CHECK FOR DUPLICATES]
+function functions.replace_recipe_ingredient_ALL(old_item, new_item)
     -- Search the recipe table
     for _, recipe in pairs(data.raw.recipe) do
         -- Fetch the ingredients list
@@ -121,33 +149,6 @@ function functions.replace_recipe_ingredient(old_item, new_item)
             end
         end
     end
-end
-
--- Assign icon function
-function functions.assign_icon(name, type)
-	local icon_path = "__flow-control-expanded-bob__/graphics/icon/base/"
-	if mods ["reskins-bobs"] then icon_path = "__flow-control-expanded-bob__/graphics/icon/reskin/" end
-
-	data.raw.item[name].icon =  icon_path..name..".png"
-	data.raw.item[name].icon_size = 64
-	data.raw[type][name].icon =  icon_path..name..".png"
-	data.raw[type][name].icon_size = 64
-end
-
--- Add recipe to tech function
-function functions.add_tech(recipe, technology)
-	table.insert(data.raw.technology[technology].effects,{type = "unlock-recipe", recipe = recipe})
-end
-
--- Remove recipe from tech function
-function functions.rem_tech(recipe, tech_name)
-	if tech_name ~= nil and data.raw.technology[tech_name] and data.raw.technology[tech_name].effects then
-		for i, effect in pairs(data.raw.technology[tech_name].effects) do
-			if effect.type == "unlock-recipe" and effect.recipe == recipe then
-				table.remove(data.raw.technology[tech_name].effects,i)
-			end
-		end
-	end
 end
 
 return functions
