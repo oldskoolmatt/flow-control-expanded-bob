@@ -1,4 +1,3 @@
-
 -----------------------------------------------------------------------
 ------ INFINITE THANKS TO KIRAZY FOR THE HELP AND DOCUMENTATION  ------
 --------------- https://mods.factorio.com/user/Kirazy -----------------
@@ -7,6 +6,9 @@
 ------------------------------
 ---- data-final-fixes.lua ----
 ------------------------------
+
+-- Load the: SUPER-DUPER-VALVE-NUKER (once again just to make sure they got NUKED!)
+require("utils.super-duper-valve-nuker")
 
 -- Apply final fixes
 require("prototypes.overrides")

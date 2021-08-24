@@ -2,6 +2,9 @@
 ---- data.lua ----
 ------------------
 
+-- Load the: SUPER-DUPER-VALVE-NUKER
+require("utils.super-duper-valve-nuker")
+
 -- Load prototypes
 require("prototypes.flowbob-pipes")
 require("prototypes.flowbob-valves")

@@ -1,15 +1,32 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.1.42
+Date: 24.08. 2021
+  Info:
+    - Implemented a function that should solve any future incompatibilities (the: SUPER-DUPER-VALVE-NUKER, yes! that's correct!)
+  Bugfixes:
+    - Fixed an incompatibility with mods copying recipes, items and so on
+---------------------------------------------------------------------------------------------------
+Version: 1.1.41
+Date: 24.08. 2021
+  Info:
+    - THIS IS A HOTFIX! IN THE PREVIOUS VERSION I FORGOT TO INCLUDE IN THE MIGRATION PROCESS THE 80% TOP-UP VALVE
+    - IF YOU UPDATED TO v1.1.40 WITH LOTS OF THOSE VALVES, THEY'RE GONE, YOU MIGHT WANT TO ROLLBACK TO A PREVIOUS SAVE!
+  Changes:
+    - All valves have a flow capacity of 100
+  Bugfixes:
+    - Added a missing entry to migration JSON file (80% top-up valve)
+---------------------------------------------------------------------------------------------------
 Version: 1.1.40
 Date: 23.08. 2021
   Info:
     - Quite a bit of code rework (removed redundant things and clean up)
   Changes:
-    - Removed from the game and remade inside this mod all duplicate valves from by: (farewell clogged UI)
+    - Removed from the game and remade inside this mod all duplicate valves from: (farewell clogged UI)
         - Flow Control
         - Bob's Logistics
         - Angel's Petrochem
     - New migration script to prevent any mishaps on update (valve rotation, pipe detachment etc etc)
-	- Remade icons for bronze pipes to match the actual color of the entity (Artisanal Reskin)
+    - Remade icons for bronze pipes to match the actual color of the entity (Artisanal Reskin)
   Bugfixes:
     - Fixed an issue where a recipe was being hidden either by "Angels Petrochem" or "AAI - industry"
 ---------------------------------------------------------------------------------------------------

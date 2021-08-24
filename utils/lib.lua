@@ -91,8 +91,8 @@ function functions.create_extensible_prototype_definitions(pipe_type, material)
 }
 end
 
--- Nukes entities from the game, because... https://www.youtube.com/watch?v=X0fp-kq-0Fw
-function functions.nuke_entity(entity_name, entity)
+-- Scans all technologies and removes recipe unlock
+function functions.remove_recipe_unlock_ALL(entity_name)
 	-- Scans all techs and removes recipe unlock references
 	for _, technology in pairs(data.raw.technology) do
 
@@ -106,11 +106,6 @@ function functions.nuke_entity(entity_name, entity)
             end
         end
     end
-
-	-- Nukes the entity
-	data.raw.recipe[entity_name] = nil
-	data.raw.item[entity_name] = nil
-	data.raw["storage-tank"][entity_name] = nil
 end
 
 -- Scans all recipes and replaces ingredient [DOES NOT CHECK FOR DUPLICATES]
@@ -149,6 +144,17 @@ function functions.replace_recipe_ingredient_ALL(old_item, new_item)
             end
         end
     end
+end
+
+-- Nukes entities from the game
+function functions.nuke_entity(old, new, entity_type)
+	functions.remove_recipe_unlock_ALL(old)
+	functions.replace_recipe_ingredient_ALL(old, new)
+
+	-- Nukes the entity
+	data.raw.recipe[old] = nil
+	data.raw.item[old] = nil
+	data.raw[entity_type][old] = nil
 end
 
 return functions
