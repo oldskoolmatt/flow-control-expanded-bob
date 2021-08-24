@@ -9,7 +9,8 @@
 	["valve-underflow", "flowbob-topup-valve-2"],
 	["check-valve", "flowbob-check-valve"],
 	["overflow-valve", "flowbob-overflow-valve"],
-	["underflow-valve", "flowbob-topup-valve-2"]
+	["underflow-valve", "flowbob-topup-valve-2"],
+	["flowbob-topup-valve", "flowbob-topup-valve-2"]
   ],
   "recipe":
   [
@@ -21,7 +22,8 @@
 	["valve-underflow", "flowbob-topup-valve-2"],
 	["check-valve", "flowbob-check-valve"],
 	["overflow-valve", "flowbob-overflow-valve"],
-	["underflow-valve", "flowbob-topup-valve-2"]
+	["underflow-valve", "flowbob-topup-valve-2"],
+	["flowbob-topup-valve", "flowbob-topup-valve-2"]
   ],
   "entity":
   [
@@ -33,6 +35,7 @@
 	["valve-underflow", "flowbob-topup-valve-2"],
 	["check-valve", "flowbob-check-valve"],
 	["overflow-valve", "flowbob-overflow-valve"],
-	["underflow-valve", "flowbob-topup-valve-2"]
+	["underflow-valve", "flowbob-topup-valve-2"],
+	["flowbob-topup-valve", "flowbob-topup-valve-2"]
   ]
 }

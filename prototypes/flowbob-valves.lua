@@ -140,10 +140,13 @@ for _, valve_name in pairs(valves) do
 		if valve_name == "flowbob-overflow-valve" then
 			valve.fluid_box.base_level = 0.8
 			valve.fluid_box.height = 0.2
+			valve.fluid_box.base_area = 5
 		elseif valve_name == "flowbob-topup-valve-1" then
 			valve.fluid_box.height = 0.2
+			valve.fluid_box.base_area = 5
 		elseif valve_name == "flowbob-topup-valve-2" then
 			valve.fluid_box.height = 0.8
+			valve.fluid_box.base_area = 1.25
 		end
 		data:extend({valve})
 	end
